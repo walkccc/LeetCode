@@ -1,0 +1,29 @@
+class Solution {
+  public List<String> topKFrequent(String[] words, int k) {
+    List<String> ans = new ArrayList<>();
+    List<String>[] bucket = new List[words.length + 1];
+    Map<String, Integer> count = new HashMap<>();
+
+    for (final String word : words)
+      count.put(word, count.getOrDefault(word, 0) + 1);
+
+    for (final String word : count.keySet()) {
+      int freq = count.get(word);
+      if (bucket[freq] == null)
+        bucket[freq] = new ArrayList<>();
+      bucket[freq].add(word);
+    }
+
+    for (int freq = bucket.length - 1; freq >= 0; --freq)
+      if (bucket[freq] != null) {
+        Collections.sort(bucket[freq]);
+        for (final String word : bucket[freq]) {
+          ans.add(word);
+          if (ans.size() == k)
+            return ans;
+        }
+      }
+
+    throw new IllegalArgumentException();
+  }
+}

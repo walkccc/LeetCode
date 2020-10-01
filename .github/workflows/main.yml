@@ -1,0 +1,79 @@
+name: Build markdown files by code files and deploy with Mkdocs
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to 'master' branch
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - run: git clone https://${ACCESS_TOKEN}@github.com/walkccc/LeetCode-docs.git docs
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - run: git clone https://${ACCESS_TOKEN}@github.com/walkccc/LeetCode-scripts.git scripts
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
+
+      - run: pip install gspread
+      - run: pip install oauth2client
+
+      - name: Generate 'docs/problems/*.md' and 'mkdocs.yml'
+        run: python3 scripts/leetcode_mkdocs.py
+
+      - name: Generate new 'README.md' (master)
+        run: python3 scripts/write_readme.py
+
+      - name: Rebase commits
+        run: |
+          git config --global user.email "${EMAIL}"
+          git config --global user.name "walkccc"
+          git checkout --orphan temp
+          git add .github solutions *.md
+          git commit -m 'Initialize LeetCode'
+          git branch -D master
+          git branch -m master
+          git push origin master -f
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r ./scripts/requirements.txt
+
+      - run: cp README.md ./docs/index.md
+      - run: cp NAMING.md ./docs/naming.md
+
+      - name: Mkdocs builds docs/ to site/
+        run: mkdocs build
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'

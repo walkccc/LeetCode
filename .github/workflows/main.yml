@@ -1,0 +1,74 @@
+name: Build markdown files by code files and deploy with Mkdocs
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - run: |
+          git clone https://${ACCESS_TOKEN}@github.com/walkccc/LeetCode-mkdocs.git mkdocs
+          git clone https://${ACCESS_TOKEN}@github.com/walkccc/LeetCode-scripts.git scripts
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
+
+      - run: pip install gspread
+      - run: pip install oauth2client
+
+      - run: python3 scripts/leetcode_mkdocs.py
+
+      - name: Rebase commits
+        run: |
+          git config --global user.email "${EMAIL}"
+          git config --global user.name "walkccc"
+          git checkout --orphan temp
+          git add .github solutions *.md
+          git commit -m 'Rebase LeetCode'
+          git branch -D main
+          git branch -m main
+          git push origin main -f
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r scripts/requirements.txt
+
+      - run: cp README.md mkdocs/docs/index.md
+      - run: cp NAMING.md mkdocs/docs/naming.md
+
+      - name: Mkdocs builds mkdocs/docs to mkdocs/site
+        run: |
+          cd mkdocs
+          mkdocs build
+          cd ..
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: mkdocs/site
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'

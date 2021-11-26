@@ -380,4 +380,4 @@ for (ListNode* curr = head; curr; curr = curr->next) { ... }
 8. `const` is used if we get value of `size()` or `length()`.
 9. `const auto` is used when we iterate through a `map`
 10. Use `&` whenever possible except `int` and `char` because reference typically takes 4 bytes, while `int` takes 2/4 bytes and `char` takes 1 byte
-11. Prefer to name variables in a "adjactive + noun" order. For example, `maxLeft` is better than `leftMax`.
+11. Prefer to name variables in a "noun + adjective" order. For example, `maxLeft` is better than `leftMax`.

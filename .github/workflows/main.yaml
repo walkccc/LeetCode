@@ -1,0 +1,83 @@
+name: Build Markdown files by code files and deploy with Mkdocs
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - run: |
+          git clone -b mkdocs --single-branch https://github.com/walkccc/LeetCode.git mkdocs
+          git clone -b scripts --single-branch https://github.com/walkccc/LeetCode.git scripts
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+          architecture: 'x64'
+
+      - run: pip install gspread
+      - run: pip install oauth2client
+      - run: pip install python-dotenv
+
+      - run: python3 scripts/main.py
+        env:
+          CLIENT_EMAIL: ${{ secrets.CLIENT_EMAIL }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_X509_CERT_URL: ${{ secrets.CLIENT_X509_CERT_URL }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          PRIVATE_KEY_ID: ${{ secrets.PRIVATE_KEY_ID }}
+          LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
+          USER_AGENT: ${{ secrets.USER_AGENT }}
+
+      - name: Rebase commits
+        run: |
+          git config --global user.email "${EMAIL}"
+          git config --global user.name "Peng-Yu Chen"
+          git checkout --orphan temp
+          git add .github solutions *.md
+          git commit -m 'Rebase LeetCode'
+          git branch -D main
+          git branch -m main
+          git push origin main -f
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r scripts/requirements.txt
+
+      - run: cp README.md mkdocs/docs/preface.md
+      - run: cp STYLEGUIDE.md mkdocs/docs/styleguide.md
+
+      - name: Mkdocs builds mkdocs/docs to mkdocs/site
+        run: |
+          cd mkdocs
+          mkdocs build
+          cd ..
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: mkdocs/site
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'

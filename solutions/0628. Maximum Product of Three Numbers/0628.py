@@ -1,26 +1,6 @@
 class Solution:
-  def maximumProduct(self, nums: List[int]) -> int:
-    mini = math.inf
-    secondMin = math.inf
-    maxi = -math.inf
-    secondMax = -math.inf
-    thirdMax = -math.inf
-
-    for num in nums:
-      if num <= mini:
-        secondMin = mini
-        mini = num
-      elif num <= secondMin:
-        secondMin = num
-
-      if num >= maxi:
-        thirdMax = secondMax
-        secondMax = maxi
-        maxi = num
-      elif num >= secondMax:
-        thirdMax = secondMax
-        secondMax = num
-      elif num >= thirdMax:
-        thirdMax = num
-
-    return max(mini * secondMin * maxi, maxi * secondMax * thirdMax)
+    def maximumProduct(self, nums: List[int]) -> int:
+        n = len(nums)
+        nums.sort()
+        return max(nums[n - 1] * nums[n - 2] * nums[n - 3],
+                   nums[n - 1] * nums[0] * nums[1])

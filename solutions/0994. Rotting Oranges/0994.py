@@ -17,25 +17,16 @@ class Solution:
         dirc = [[0, 1], [0, -1], [1, 0], [-1, 0]]
         
         while q and fresh > 0:
-
             for i in range(len(q)):
-
                 r, c = q.popleft()
-                
                 for dr, dc in dirc:
-
                     row, col = dr + r, dc + c
                     # if in bound and fresh make rotten
                     if (row < 0 or col < 0 or row == R or col == C or grid[row][col] != 1):
-                        
                         continue
-                        
                     grid[row][col] = 2 # mark grid[row][col] as rotten
-                    
-                    q.append([row, col]) # push newly rotten orange to queue
-                    
+                    q.append([row, col]) # push newly rotten orange to queue                    
                     fresh -= 1 # decrease the count of fresh oranges by 1
                     
-            time += 1
-            
+            time += 1 # Caculating the time
         return time if fresh == 0 else -1

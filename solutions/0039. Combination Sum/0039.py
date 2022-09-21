@@ -6,7 +6,7 @@ class Solution:
       if target < 0:
         return
       if target == 0:
-        ans.append(path.clone())
+        ans.append(path.copy())
         return
 
       for i in range(s, len(candidates)):

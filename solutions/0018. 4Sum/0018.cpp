@@ -1,51 +1,29 @@
 class Solution {
- public:
-  vector<vector<int>> fourSum(vector<int>& nums, int target) {
-    vector<vector<int>> ans;
-    vector<int> path;
-
-    sort(begin(nums), end(nums));
-    nSum(nums, 4, target, 0, nums.size() - 1, path, ans);
-    return ans;
-  }
-
- private:
-  // in [l, r], find n numbers add up to the target
-  void nSum(const vector<int>& nums, int n, int target, int l, int r,
-            vector<int>& path, vector<vector<int>>& ans) {
-    if (r - l + 1 < n || target < nums[l] * n || target > nums[r] * n)
-      return;
-    if (n == 2) {
-      // very similar to the sub procedure in 15. 3Sum
-      while (l < r) {
-        const int sum = nums[l] + nums[r];
-        if (sum == target) {
-          path.push_back(nums[l]);
-          path.push_back(nums[r]);
-          ans.push_back(path);
-          path.pop_back();
-          path.pop_back();
-          ++l;
-          --r;
-          while (l < r && nums[l] == nums[l - 1])
-            ++l;
-          while (l < r && nums[r] == nums[r + 1])
-            --r;
-        } else if (sum < target) {
-          ++l;
-        } else {
-          --r;
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>> v;
+        if(nums.size()<4) return v;
+        sort(nums.begin(), nums.end());
+        for(int i=0;i<nums.size()-3;i++){
+            for(int j=i+1;j<nums.size()-2;j++){
+                int start=j+1;
+                int end=nums.size()-1;
+                while(start<end){
+                    long long int sum=(long long int)nums[i]+(long long int)nums[j]+(long long int)nums[start]+(long long int)nums[end];
+                    if(sum>target) end--;
+                    else if(sum<target) start++;
+                    else{
+                        v.push_back({nums[i], nums[j], nums[start], nums[end]});
+                        while(start<end-1 && nums[end]==nums[end-1]) end--;
+                        while(start+1<end && nums[start]==nums[start+1]) start++;
+                        start++;
+                        end--;
+                    }
+                }
+                while(j+1<nums.size() && nums[j+1]==nums[j]) j++;
+            }
+            while(i+1<nums.size() && nums[i+1]==nums[i]) i++;
         }
-      }
-      return;
+        return v;
     }
-
-    for (int i = l; i <= r; ++i) {
-      if (i > l && nums[i] == nums[i - 1])
-        continue;
-      path.push_back(nums[i]);
-      nSum(nums, n - 1, target - nums[i], i + 1, r, path, ans);
-      path.pop_back();
-    }
-  }
 };

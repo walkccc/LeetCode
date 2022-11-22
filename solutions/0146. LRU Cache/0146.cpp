@@ -5,43 +5,74 @@ struct Node {
 };
 
 class LRUCache {
- public:
-  LRUCache(int capacity) : capacity(capacity) {}
+public:
+class node{
+    public:
+    int key;
+    int val;
 
-  int get(int key) {
-    if (!keyToIterator.count(key))
-      return -1;
+    node* next;
+    node* prev;
 
-    const auto& it = keyToIterator[key];
-    // Move it to the front
-    cache.splice(begin(cache), cache, it);
-    return it->value;
-  }
-
-  void put(int key, int value) {
-    // No capacity issue, just update the value
-    if (keyToIterator.count(key)) {
-      const auto& it = keyToIterator[key];
-      // Move it to the front
-      cache.splice(begin(cache), cache, it);
-      it->value = value;
-      return;
+    node(int _key,int _val){
+        key = _key;
+        val = _val;
+        next = NULL;
+        prev = NULL;
     }
-
-    // Check the capacity
-    if (cache.size() == capacity) {
-      const Node& lastNode = cache.back();
-      // that's why we store `key` in `Node`
-      keyToIterator.erase(lastNode.key);
-      cache.pop_back();
-    }
-
-    cache.emplace_front(key, value);
-    keyToIterator[key] = begin(cache);
-  }
-
- private:
-  const int capacity;
-  list<Node> cache;
-  unordered_map<int, list<Node>::iterator> keyToIterator;
 };
+
+
+    int n;
+    unordered_map<int,node*>mp;
+
+    // head and tail
+    node* head = new node(0,0);
+    node* tail = new node(0,0);    
+
+    void remove(node* root){
+        mp.erase(root->key);
+        node* r1 = root->next;
+        node* r2 = root->prev;
+        r2->next = r1;
+        r1->prev = r2;  
+    }
+    
+    void insert(node* root){
+        mp[root->key] = root;
+
+        node* temp = head->next;
+        head->next = root;
+        root->next = temp;
+        temp->prev = root;
+        root->prev = head;        
+    }
+
+    LRUCache(int capacity) {
+        n = capacity;
+        head->next = tail;
+        tail->prev = head;
+    }
+    
+    int get(int key) {
+        if(mp.count(key)==0){
+            return -1;
+        }
+        node *temp = mp[key];
+        remove(temp);
+        insert(temp);
+        return temp->val;
+    }
+    
+    void put(int key, int value) {
+        node* temp = new node(key,value);
+        if(mp.count(key)!=0){
+            remove(mp[key]);
+        }
+        if(mp.size() == n){
+            remove(tail->prev);
+        }
+        insert(temp);
+    }
+};
+

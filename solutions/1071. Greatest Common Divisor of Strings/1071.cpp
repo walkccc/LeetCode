@@ -1,19 +1,18 @@
 class Solution {
- public:
-  string gcdOfStrings(string str1, string str2) {
-    if (str1.length() < str2.length())
-      return gcdOfStrings(str2, str1);
-    if (str1.find(str2) == string::npos)
-      return "";
-    if (str2.empty())
-      return str1;
-    return gcdOfStrings(str2, mod(str1, str2));
-  }
-
- private:
-  string mod(string& s1, const string& s2) {
-    while (s1.find(s2) == 0)
-      s1 = s1.substr(s2.length());
-    return s1;
-  }
+public:
+    string gcdOfStrings(string str1, string str2) {
+        int len1 = str1.length();
+        int len2 = str2.length();
+        int gcd_len = gcd(len1, len2);
+        string sub = str1.substr(0, gcd_len);
+        if (str1 + str2 == str2 + str1 && str1.substr(0, gcd_len) == str2.substr(0, gcd_len)) {
+            return sub;
+        } else {
+            return "";
+        }
+    }
+private:
+    int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
 };

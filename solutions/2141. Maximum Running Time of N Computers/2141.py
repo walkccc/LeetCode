@@ -8,7 +8,7 @@ class Solution:
     # Reduce the problem from size n to size n - 1
     while batteries[-1] > summ // n:
       summ -= batteries.pop()
-      n += 1
+      n -= 1
 
     # If the max battery <= average running time,
     # It won't be waste, and so do smaller batteries

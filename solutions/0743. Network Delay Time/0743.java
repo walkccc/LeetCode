@@ -9,7 +9,7 @@ class Solution {
       final int u = time[0] - 1;
       final int v = time[1] - 1;
       final int w = time[2];
-      graph[u].add(new Pair<>(v, w));
+      graph[u].add(new Pair<>(w, v));
     }
 
     return dijkstra(graph, k - 1);

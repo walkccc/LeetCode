@@ -4,7 +4,7 @@ class Solution {
     int[] xors = new int[arr.length + 1];
 
     for (int i = 0; i < arr.length; ++i)
-      xors[i + 1] ^= xors[i] ^ arr[i];
+      xors[i + 1] = xors[i] ^ arr[i];
 
     int i = 0;
     for (int[] query : queries)

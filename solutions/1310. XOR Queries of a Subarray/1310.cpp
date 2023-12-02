@@ -5,7 +5,7 @@ class Solution {
     vector<int> xors(arr.size() + 1);
 
     for (int i = 0; i < arr.size(); ++i)
-      xors[i + 1] ^= xors[i] ^ arr[i];
+      xors[i + 1] = xors[i] ^ arr[i];
 
     for (const vector<int>& query : queries)
       ans.push_back(xors[query[0]] ^ xors[query[1] + 1]);

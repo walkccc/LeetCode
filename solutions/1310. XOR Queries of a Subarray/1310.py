@@ -4,7 +4,7 @@ class Solution:
     xors = [0] * (len(arr) + 1)
 
     for i, a in enumerate(arr):
-      xors[i + 1] ^= xors[i] ^ a
+      xors[i + 1] = xors[i] ^ a
 
     for l, r in queries:
       ans.append(xors[l] ^ xors[r + 1])

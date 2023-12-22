@@ -4,17 +4,12 @@ class Solution {
     int end = 0;
     int farthest = 0;
 
-    // Start an implicit BFS.
-    for (int i = 0; i < nums.length - 1; ++i) {
-      farthest = Math.max(farthest, i + nums[i]);
-      if (farthest >= nums.length - 1) {
+    for (int i = 0; i < nums.length; ++i) {
+      if (end < i) {
+        end = farthest;
         ++ans;
-        break;
       }
-      if (i == end) {   // Visited all the items on the current level.
-        ++ans;          // Increment the level.
-        end = farthest; // Make the queue size for the next level.
-      }
+      farthest = Math.max(farthest, i + nums[i]);
     }
 
     return ans;

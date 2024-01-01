@@ -26,7 +26,7 @@ class Solution:
       return -1.0  # invalid result
 
     for A, C in queries:
-      if A not in graph and C not in graph:
+      if A not in graph or C not in graph:
         ans.append(-1.0)
       else:
         ans.append(devide(A, C, set()))

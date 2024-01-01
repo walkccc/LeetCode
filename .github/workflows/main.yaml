@@ -1,0 +1,102 @@
+name: LeetCode Workflow
+
+# This workflow does the following:
+#   - update README with latest progress
+#   - reset commits
+#   - build *.md files by *.(cpp|java|py) and deploy with Mkdocs
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  update-readme-and-reset-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: walkccc/LeetCode
+          ref: main
+          path: main
+
+      - run:
+          git clone -b scripts --single-branch
+          https://github.com/walkccc/LeetCode.git scripts
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          architecture: "x64"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r scripts/requirements.txt
+
+      - run: python3 scripts/readme_writer_main.py
+
+      - name: Reset commits
+        run: |
+          cd main
+          git checkout --orphan temp
+          git add --all
+          git config user.name "Peng-Yu Chen"
+          git config user.email $EMAIL
+          git commit -m 'LeetCode'
+          git branch -D main
+          git branch -m main
+          git push origin main -f
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: update-readme-and-reset-commits
+    steps:
+      - run: |
+          git clone -b main --single-branch https://github.com/walkccc/LeetCode.git main
+          git clone -b mkdocs --single-branch https://github.com/walkccc/LeetCode.git mkdocs
+          git clone -b scripts --single-branch https://github.com/walkccc/LeetCode.git scripts
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          architecture: "x64"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r scripts/requirements.txt
+
+      - run: python3 scripts/mkdocs_writer_main.py
+        env:
+          CLIENT_EMAIL: ${{ secrets.CLIENT_EMAIL }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_X509_CERT_URL: ${{ secrets.CLIENT_X509_CERT_URL }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          PRIVATE_KEY_ID: ${{ secrets.PRIVATE_KEY_ID }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+
+      - run: cp main/README.md mkdocs/docs/index.md
+      - run: cp main/STYLEGUIDE.md mkdocs/docs/styleguide.md
+
+      - name: Mkdocs builds mkdocs/docs to mkdocs/site
+        run: |
+          mkdocs build -f mkdocs/mkdocs.yml
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: mkdocs/site
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"

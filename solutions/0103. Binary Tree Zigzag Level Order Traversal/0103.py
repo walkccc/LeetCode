@@ -9,7 +9,7 @@ class Solution:
 
     while dq:
       currLevel = []
-      for _ in range(len(q)):
+      for _ in range(len(dq)):
         if isLeftToRight:
           node = dq.popleft()
           currLevel.append(node.val)

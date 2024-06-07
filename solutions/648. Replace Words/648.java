@@ -1,45 +1,28 @@
-class TrieNode {
-  private TrieNode[] children = new TrieNode[26];
-  private String word;
-}
-
+//Aditya Konda 
 class Solution {
-  public String replaceWords(List<String> dictionary, String sentence) {
-    StringBuilder sb = new StringBuilder();
-
-    for (final String word : dictionary)
-      insert(word);
-
-    final String[] words = sentence.split(" ");
-    for (final String word : words)
-      sb.append(' ').append(search(word));
-
-    return sb.substring(1).toString();
-  }
-
-  private TrieNode root = new TrieNode();
-
-  private void insert(final String word) {
-    TrieNode node = root;
-    for (char c : word.toCharArray()) {
-      final int i = c - 'a';
-      if (node.children[i] == null)
-        node.children[i] = new TrieNode();
-      node = node.children[i];
+    public String replaceWords(List<String> dictionary, String sentence) {
+        Set<String> rootSet = new HashSet<>(dictionary);
+        String[] words = sentence.split(" ");
+        StringBuilder result = new StringBuilder();
+        for (String word : words) {
+            String prefix = "";
+            for (int i = 1; i <= word.length(); i++) {
+                prefix = word.substring(0, i);
+                if (rootSet.contains(prefix)) {
+                    break;
+                }
+            }
+            if (result.length() > 0) {
+                result.append(" ");
+            }
+            result.append(prefix);
+        }
+        return result.toString();
     }
-    node.word = word;
-  }
-
-  private String search(final String word) {
-    TrieNode node = root;
-    for (char c : word.toCharArray()) {
-      if (node.word != null)
-        return node.word;
-      final int i = c - 'a';
-      if (node.children[i] == null)
-        return word;
-      node = node.children[i];
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        List<String> dictionary = Arrays.asList("cat", "bat", "rat");
+        String sentence = "the cattle was rattled by the battery";
+        System.out.println(sol.replaceWords(dictionary, sentence)); 
     }
-    return word;
-  }
 }

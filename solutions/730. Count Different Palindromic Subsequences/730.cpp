@@ -1,3 +1,5 @@
+#define ll long long
+
 class Solution {
  public:
   int countPalindromicSubsequences(string s) {
@@ -5,7 +7,7 @@ class Solution {
     const int n = s.length();
     // dp[i][j] := the number of different non-empty palindromic subsequences in
     // s[i..j]
-    vector<vector<int>> dp(n, vector<int>(n));
+    vector<vector<ll>> dp(n, vector<ll>(n));
 
     for (int i = 0; i < n; ++i)
       dp[i][i] = 1;

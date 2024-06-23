@@ -55,14 +55,15 @@ class AllOne {
     if (lit->keys.empty())
       l.erase(lit);
   }
-
+ 
   string getMaxKey() {
-    return l.empty() ? "" : *l.back(.cbegin().keys);
+      return l.empty() ? "" : *l.back().keys.begin();
+  }
+  
+  string getMinKey() {
+      return l.empty() ? "" : *l.front().keys.begin();
   }
 
-  string getMinKey() {
-    return l.empty() ? "" : *l.front(.cbegin().keys);
-  }
 
  private:
   struct Node {

@@ -5,7 +5,7 @@ class Solution {
   }
 
  private:
-  const static vector<double> ratios{1.0, 1.0 / 9, 1.0 / 99, 1.0 / 999,
+  const vector<double> ratios{1.0, 1.0 / 9, 1.0 / 99, 1.0 / 999,
                                      1.0 / 9999};
 
   double valueOf(const string& s) {

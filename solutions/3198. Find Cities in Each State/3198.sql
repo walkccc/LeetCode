@@ -1,0 +1,6 @@
+SELECT
+  state,
+  GROUP_CONCAT(city ORDER BY city SEPARATOR ', ') AS cities
+FROM Cities
+GROUP BY 1
+ORDER BY 1;

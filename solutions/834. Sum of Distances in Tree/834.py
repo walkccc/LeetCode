@@ -8,7 +8,7 @@ class Solution:
       tree[u].add(v)
       tree[v].add(u)
 
-    def postorder(u, prev=None):
+    def postorder(u: int, prev: int) -> None:
       for v in tree[u]:
         if v == prev:
           continue
@@ -16,7 +16,7 @@ class Solution:
         count[u] += count[v]
         ans[u] += ans[v] + count[v]
 
-    def preorder(u, prev=None):
+    def preorder(u: int, prev: int) -> None:
       for v in tree[u]:
         if v == prev:
           continue
@@ -25,6 +25,6 @@ class Solution:
         ans[v] = ans[u] - count[v] + (n - count[v])
         preorder(v, u)
 
-    postorder(0)
-    preorder(0)
+    postorder(0, -1)
+    preorder(0, -1)
     return ans

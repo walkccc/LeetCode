@@ -35,9 +35,8 @@ class Codec {
 
     for (int i = 1; i < vals.length; ++i) {
       Node parent = q.poll();
-      final String[] kids = vals[i].split("#");
       List<Node> children = new ArrayList<>();
-      for (final String kid : kids) {
+      for (final String kid : vals[i].split("#")) {
         if (kid.equals("n"))
           continue;
         Node child = new Node(Integer.parseInt(kid));

@@ -41,9 +41,8 @@ class Codec {
     while (iss >> word) {
       Node* parent = q.front();
       q.pop();
-      vector<string> kids = getKids(word);
       vector<Node*> children;
-      for (const string& kid : kids) {
+      for (const string& kid : getKids(word)) {
         if (kid == "n")
           continue;
         Node* child = new Node(stoi(kid));

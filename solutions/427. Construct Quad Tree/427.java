@@ -5,14 +5,13 @@ class Solution {
 
   private Node helper(int[][] grid, int i, int j, int w) {
     if (allSame(grid, i, j, w))
-      return new Node(grid[i][j] == 1 ? true : false, true);
-
-    Node node = new Node(true, false);
-    node.topLeft = helper(grid, i, j, w / 2);
-    node.topRight = helper(grid, i, j + w / 2, w / 2);
-    node.bottomLeft = helper(grid, i + w / 2, j, w / 2);
-    node.bottomRight = helper(grid, i + w / 2, j + w / 2, w / 2);
-    return node;
+      return new Node(grid[i][j] == 1, /*isLeaf=*/true);
+    final int half = w / 2;
+    return new Node(/*val=*/true, /*isLeaf=*/false,
+                    /*topLeft=*/helper(grid, i, j, half),
+                    /*topRight=*/helper(grid, i, j + half, half),
+                    /*bottomLeft=*/helper(grid, i + half, j, half),
+                    /*bottomRight=*/helper(grid, i + half, j + half, half));
   }
 
   private boolean allSame(int[][] grid, int i, int j, int w) {

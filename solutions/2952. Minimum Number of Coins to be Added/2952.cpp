@@ -1,0 +1,23 @@
+class Solution {
+ public:
+  // Same as 330. Patching Array
+  int minimumAddedCoins(vector<int>& coins, int target) {
+    int ans = 0;
+    int i = 0;      // coins' index
+    long miss = 1;  // the minimum sum in [1, n] we might miss
+
+    ranges::sort(coins);
+
+    while (miss <= target)
+      if (i < coins.size() && coins[i] <= miss) {
+        miss += coins[i++];
+      } else {
+        // Greedily add `miss` itself to increase the range from
+        // [1, miss) to [1, 2 * miss).
+        miss += miss;
+        ++ans;
+      }
+
+    return ans;
+  }
+};

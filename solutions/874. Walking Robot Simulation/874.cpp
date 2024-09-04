@@ -1,3 +1,10 @@
+#include <vector>
+#include <unordered_set>
+#include <utility>
+#include <algorithm>
+
+using namespace std;
+
 class Solution {
  public:
   int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
@@ -18,10 +25,12 @@ class Solution {
         d = (d + 3) % 4;
       } else {
         for (int step = 0; step < c; ++step) {
-          if (obstaclesSet.contains({x + dirs[d], y + dirs[d + 1]}))
+          int nx = x + dirs[d][0];
+          int ny = y + dirs[d][1];
+          if (obstaclesSet.count({nx, ny}))
             break;
-          x += dirs[d];
-          y += dirs[d + 1];
+          x = nx;
+          y = ny;
         }
       }
       ans = max(ans, x * x + y * y);
@@ -33,7 +42,7 @@ class Solution {
  private:
   struct PairHash {
     size_t operator()(const pair<int, int>& p) const {
-      return p.first ^ p.second;
+      return hash<int>()(p.first) ^ (hash<int>()(p.second) << 1);
     }
   };
 };

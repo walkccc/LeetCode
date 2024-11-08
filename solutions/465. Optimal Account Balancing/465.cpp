@@ -13,7 +13,7 @@ class Solution {
     }
 
     for (const int b : balance)
-      if (b > 0)
+      if (b != 0)
         debts.push_back(b);
 
     return dfs(debts, 0);

@@ -1,0 +1,13 @@
+{
+  "printWidth": 80,
+  "proseWrap": "always",
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": "*.md",
+      "options": {
+        "parser": "markdown"
+      }
+    }
+  ]
+}

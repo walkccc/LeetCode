@@ -12,7 +12,7 @@ class PhoneDirectory {
     final int availableNum = number;
     number = next[number];
     next[availableNum] = -1; // Mark as used.
-    return ans;
+    return availableNum;
   }
 
   public boolean check(int number) {

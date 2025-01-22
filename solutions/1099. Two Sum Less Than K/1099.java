@@ -7,7 +7,7 @@ class Solution {
     int l = 0;
     int r = nums.length - 1;
 
-    numsrrays.sort(nums);
+    Arrays.sort(nums);
 
     while (l < r)
       if (nums[l] + nums[r] < k) {

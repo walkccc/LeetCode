@@ -15,7 +15,7 @@ class Solution {
         left[i][c] = colorToClosestIndex[c];
     }
 
-    colorToClosestIndex = {0, -1, -1, -1}; // Reset
+    colorToClosestIndex = new int[] {0, -1, -1, -1}; // Reset
     for (int i = n - 1; i >= 0; --i) {
       colorToClosestIndex[colors[i]] = i;
       for (int c = 1; c <= kNumColor; ++c)

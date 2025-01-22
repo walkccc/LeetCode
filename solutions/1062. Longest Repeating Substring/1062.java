@@ -7,7 +7,7 @@ class Solution {
 
     for (int i = 1; i <= n; ++i)
       for (int j = i + 1; j <= n; ++j)
-        if (S.charAt(i - 1) == s.charAt(j - 1)) {
+        if (s.charAt(i - 1) == s.charAt(j - 1)) {
           dp[i][j] = 1 + dp[i - 1][j - 1];
           ans = Math.max(ans, dp[i][j]);
         }

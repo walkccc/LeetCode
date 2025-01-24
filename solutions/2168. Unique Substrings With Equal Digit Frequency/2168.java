@@ -1,5 +1,6 @@
 class Solution {
   public int equalDigitFrequency(String s) {
+    int n = s.length();
     int[][] counts = new int[n][]; // counts[i] := the counter map of s[0..i]
     int[] count = new int[10];
     long[] pows = new long[n + 1]; // pows[i] := kBase^i % kHash

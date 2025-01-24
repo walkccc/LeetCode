@@ -1,4 +1,7 @@
 class FileSharing {
+  public FileSharing(int m) {
+  }
+
   public int join(List<Integer> ownedChunks) {
     final int userId =
         availableUserIds.isEmpty() ? userToChunks.size() + 1 : availableUserIds.poll();

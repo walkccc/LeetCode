@@ -12,8 +12,8 @@ class Solution {
     room[i][j] = 2; // 2 := cleaned
 
     while (true) {
-      final int x = i + dirs[state];
-      final int y = j + dirs[state + 1];
+      final int x = i + dirs[state][0];
+      final int y = j + dirs[state][1];
       if (x < 0 || x == m || y < 0 || y == n || room[x][y] == 1) {
         // Turn 90 degrees clockwise.
         state = (state + 1) % 4;

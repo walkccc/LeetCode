@@ -34,9 +34,9 @@ class Solution {
       mst.add(u);
       ans += d;
       // Expand if possible.
-      for (Pair<Integer, Integer> pair : graph[u]) {
-        final int v = pair.getKey();
-        final int w = pair.getValue();
+      for (Pair<Integer, Integer> nPair : graph[u]) {
+        final int v = nPair.getKey();
+        final int w = nPair.getValue();
         if (!mst.contains(v))
           minHeap.offer(new Pair<>(w, v));
       }

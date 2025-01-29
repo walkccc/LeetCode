@@ -19,7 +19,7 @@ class Solution {
     if (first3 != -1 && last2 != -1)
       for (int i = first3; i < last2; i++)
         if (locked[i] == 1)
-          +ans;
+          ++ans;
 
     return ans;
   }

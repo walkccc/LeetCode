@@ -1,48 +1,51 @@
 class Solution {
   public long[] minCost(int n, int[][] roads, int[] appleCost, int k) {
-    long[] ans = new long[n];
-    List<Pair<Integer, Integer>>[] graph = new List[n];
-
-    for (int i = 0; i < n; ++i)
-      graph[i] = new ArrayList<>();
-
-    for (int[] road : roads) {
-      final int u = road[0] - 1;
-      final int v = road[1] - 1;
-      final int w = road[2];
-      graph[u].add(new Pair<>(v, w));
-      graph[v].add(new Pair<>(u, w));
+    cost = appleCost;
+    g = new List[n];
+    dist = new int[n];
+    this.k = k;
+    for (int i = 0; i < n; ++i) {
+      g[i] = new ArrayList<>();
     }
-
-    for (int i = 0; i < n; ++i)
-      ans[i] = dijkstra(graph, i, appleCost, k);
+    for (var e : roads) {
+      int a = e[0] - 1, b = e[1] - 1, c = e[2];
+      g[a].add(new int[] { b, c });
+      g[b].add(new int[] { a, c });
+    }
+    long[] ans = new long[n];
+    for (int i = 0; i < n; ++i) {
+      ans[i] = dijkstra(i);
+    }
 
     return ans;
   }
 
-  private long dijkstra(List<Pair<Integer, Integer>>[] graph, int i, int[] appleCost, int k) {
-    long[] forwardCost = new long[graph.length];
-    long[] totalCost = new long[graph.length];
-    Arrays.fill(forwardCost, Long.MAX_VALUE);
-    Arrays.fill(totalCost, Long.MAX_VALUE);
-    forwardCost[i] = 0;
-    Queue<Integer> q = new LinkedList<>(Arrays.asList(i));
+  private int k;
+  private int[] cost;
+  private int[] dist;
+  private List<int[]>[] g;
+  private static final int INF = 0x3f3f3f3f;
 
+  private long dijkstra(int u) {
+    PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+    q.offer(new int[] { 0, u });
+    Arrays.fill(dist, INF);
+    dist[u] = 0;
+    long ans = Long.MAX_VALUE;
     while (!q.isEmpty()) {
-      final int u = q.poll();
-      for (Pair<Integer, Integer> pair : graph[u]) {
-        final int v = pair.getKey();
-        final int w = pair.getValue();
-        final long nextCost = forwardCost[u] + w;
-        if (nextCost >= forwardCost[v])
-          continue;
-        forwardCost[v] = nextCost;
-        // Take apple at city v and return back to city i.
-        totalCost[v] = (k + 1) * nextCost + appleCost[v];
-        q.offer(v);
+      var p = q.poll();
+      int d = p[0];
+      u = p[1];
+      ans = Math.min(ans, cost[u] + (long) (k + 1) * d);
+      for (var ne : g[u]) {
+        int v = ne[0], w = ne[1];
+        if (dist[v] > dist[u] + w) {
+          dist[v] = dist[u] + w;
+          q.offer(new int[] { dist[v], v });
+        }
       }
     }
 
-    return Math.min(appleCost[i], Arrays.stream(totalCost).min().getAsLong());
+    return ans;
   }
 }

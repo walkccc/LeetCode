@@ -1,34 +1,24 @@
+# Write your MySQL query statement below
 WITH
-  FilteredPosts AS (
-    SELECT *
+  P AS (
+    SELECT p1.user_id AS user_id, COUNT(1) AS cnt
+    FROM
+      Posts AS p1
+      JOIN Posts AS p2
+        ON p1.user_id = p2.user_id
+        AND p2.post_date BETWEEN p1.post_date AND DATE_ADD(p1.post_date, INTERVAL 6 DAY)
+    GROUP BY p1.user_id, p1.post_id
+  ),
+  T AS (
+    SELECT user_id, COUNT(1) / 4 AS avg_weekly_posts
     FROM Posts
     WHERE post_date BETWEEN '2024-02-01' AND '2024-02-28'
-  ),
-  AvgWeeklyPosts AS (
-    SELECT user_id, COUNT(*) / 4.0 AS avg_weekly_posts
-    FROM FilteredPosts
-    GROUP BY 1
-  ),
-  UserTo7dayPosts AS (
-    SELECT
-      FirstPost.user_id,
-      COUNT(*) AS sevenday_posts
-    FROM Posts AS FirstPost
-    INNER JOIN Posts AS FollowingPost
-      ON (
-        FirstPost.user_id = FollowingPost.user_id
-        AND FollowingPost.post_date BETWEEN FirstPost.post_date
-        AND DATE_ADD(FirstPost.post_date, INTERVAL 6 DAY))
-    GROUP BY FirstPost.user_id, FirstPost.post_date
-  ),
-  UserToMax7dayPosts AS (
-    SELECT user_id, MAX(sevenday_posts) AS max_7day_posts
-    FROM UserTo7dayPosts
     GROUP BY 1
   )
-SELECT *
-FROM UserToMax7dayPosts
-INNER JOIN AvgWeeklyPosts
-  USING (user_id)
-WHERE UserToMax7dayPosts.max_7day_posts >= 2 * AvgWeeklyPosts.avg_weekly_posts
-ORDER BY user_id;
+SELECT user_id, MAX(cnt) AS max_7day_posts, avg_weekly_posts
+FROM
+  P
+  JOIN T USING (user_id)
+GROUP BY 1
+HAVING max_7day_posts >= avg_weekly_posts * 2
+ORDER BY 1;

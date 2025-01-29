@@ -22,4 +22,4 @@ SELECT
   ) AS duration_formatted
 FROM RankedCalls
 WHERE `rank` <= 3
-ORDER BY type, duration DESC, first_name DESC;
+ORDER BY type DESC, duration DESC, first_name DESC;

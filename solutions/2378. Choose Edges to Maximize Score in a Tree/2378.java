@@ -28,9 +28,9 @@ class Solution {
     for (Pair<Integer, Integer> pair : graph[u]) {
       final int v = pair.getKey();
       final int w = pair.getValue();
-      Pair<Long, Long> pair = dfs(graph, v);
-      final long takeV = pair.getKey();
-      final long notTakeV = pair.getValue();
+      Pair<Long, Long> nPair = dfs(graph, v);
+      final long takeV = nPair.getKey();
+      final long notTakeV = nPair.getValue();
       bestEdge = Math.max(bestEdge, w + notTakeV - takeV);
       notTakeU += takeV;
     }

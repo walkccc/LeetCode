@@ -8,7 +8,7 @@ class Solution {
     for (int i = 0; i < n; ++i)
       graph[i] = new ArrayList<>();
 
-    for (int[] edge : edges)
+    for (int[] e : edges)
       graph[e[0]].add(e[1]);
 
     return acyclic(graph, source, destination, states);

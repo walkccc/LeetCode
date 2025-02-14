@@ -4,7 +4,7 @@ class Solution {
     int ans = 0;
     unordered_set<int> seen{nums.begin(), nums.end()};
 
-    for (int num : nums) {
+    for (int num : seen) {
       // `num` is the start of a sequence.
       if (seen.contains(num - 1))
         continue;

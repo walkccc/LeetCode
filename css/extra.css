@@ -1,0 +1,15 @@
+.twitter {
+  color: #ffffff;
+  transition: background-color 0.3s ease;
+}
+
+.twitter:hover {
+  color: #1da1f2;
+  cursor: pointer;
+}
+
+@media (min-width: 1384px) {
+  .md-grid {
+    max-width: 1384px;
+  }
+}

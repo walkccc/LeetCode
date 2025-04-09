@@ -1,0 +1,16 @@
+.algo-monster {
+  color: rgb(10, 156, 247);
+  transition: background-color 0.3s ease;
+}
+
+.algo-monster:hover {
+  color: rgb(64, 182, 255);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media (min-width: 1384px) {
+  .md-grid {
+    max-width: 1384px;
+  }
+}

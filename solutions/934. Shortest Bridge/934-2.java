@@ -1,0 +1,53 @@
+class Solution {
+  public int shortestBridge(int[][] grid) {
+    final int[][] DIRS = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    final int n = grid.length;
+    Queue<Pair<Integer, Integer>> q = new ArrayDeque<>();
+
+    markGridTwo(grid, q);
+
+    for (int ans = 0; !q.isEmpty(); ++ans)
+      for (int sz = q.size(); sz > 0; --sz) {
+        final int i = q.peek().getKey();
+        final int j = q.poll().getValue();
+        for (int[] dir : DIRS) {
+          final int x = i + dir[0];
+          final int y = j + dir[1];
+          if (x < 0 || x == n || y < 0 || y == n)
+            continue;
+          if (grid[x][y] == 2)
+            continue;
+          if (grid[x][y] == 1)
+            return ans;
+          grid[x][y] = 2;
+          q.offer(new Pair<>(x, y));
+        }
+      }
+
+    throw new IllegalArgumentException();
+  }
+
+  // Marks one group to 2s by DFS.
+  private void markGridTwo(int[][] grid, Queue<Pair<Integer, Integer>> q) {
+    for (int i = 0; i < grid.length; ++i)
+      for (int j = 0; j < grid[0].length; ++j)
+        if (grid[i][j] == 1) {
+          markGridTwo(grid, i, j, q);
+          return;
+        }
+  }
+
+  // Marks one group to 2s by DFS and pushes them to the queue.
+  private void markGridTwo(int[][] grid, int i, int j, Queue<Pair<Integer, Integer>> q) {
+    if (i < 0 || i == grid.length || j < 0 || j == grid[0].length)
+      return;
+    if (grid[i][j] != 1)
+      return;
+    grid[i][j] = 2;
+    q.offer(new Pair<>(i, j));
+    markGridTwo(grid, i + 1, j, q);
+    markGridTwo(grid, i - 1, j, q);
+    markGridTwo(grid, i, j + 1, q);
+    markGridTwo(grid, i, j - 1, q);
+  }
+}

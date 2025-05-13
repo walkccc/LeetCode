@@ -3,7 +3,7 @@ class Solution {
     long ans = 1; // prices[0]
     int dp = 1;
 
-    for (int i = 1; i < prices.size(); ++i) {
+    for (int i = 1; i < prices.length; ++i) {
       if (prices[i] == prices[i - 1] - 1)
         ++dp;
       else

@@ -1,0 +1,97 @@
+name: LeetCode Workflow
+
+# This workflow does the following:
+#   1. Update the README with the latest progress.
+#   2. Reset the commit history.
+#   3. Build the *.md files by the code files and deploy with Mkdocs.
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  LeetFlow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout LeetCode
+        uses: actions/checkout@v4
+        with:
+          repository: walkccc/LeetCode
+          path: LeetCode
+          ref: main
+
+      - name: Checkout LeetFlow
+        uses: actions/checkout@v4
+        with:
+          repository: walkccc/LeetFlow
+          path: LeetFlow
+          ref: main
+          token: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Run FlareSolverr Docker container
+        run: |
+          docker run -d \
+            --name=flaresolverr \
+            -p 8191:8191 \
+            -e LOG_LEVEL=info \
+            --restart unless-stopped \
+            ghcr.io/flaresolverr/flaresolverr:latest
+
+      - name: Set up Node v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.11.0
+
+      - name: Write README.md and Mkdocs *.md files
+        run: |
+          cd LeetFlow
+          npm install
+          npm run build -- --topic all
+        env:
+          CLIENT_EMAIL: ${{ secrets.CLIENT_EMAIL }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Reset the commit history
+        run: |
+          cd LeetCode
+          git checkout --orphan orphan
+          git add --all
+          git config user.name "Peng-Yu Chen"
+          git config user.email $EMAIL
+          git commit -m 'LeetCode'
+          git branch -D main
+          git branch -m main
+          git push origin main -f
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+          architecture: 'x64'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r LeetFlow/requirements.txt
+
+      - name: Append item_number custom sort to MkDocs-Material tags plugin
+        run: |
+          FILE_PATH=$(python3 -c "import material.plugins.tags; print(material.plugins.tags.__file__)") && \
+          echo -e '\n\ndef item_number(mapping: Mapping):\n  return int(mapping.item.title.split(".")[0])' >> "$FILE_PATH"
+
+      - name: Build LeetFlow/mkdocs to LeetFlow/site
+        run: mkdocs build -f LeetFlow/mkdocs/mkdocs.yml
+
+      - name: Deploy with Mkdocs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: LeetFlow/mkdocs/site
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'

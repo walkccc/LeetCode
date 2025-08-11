@@ -1,0 +1,6783 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="LeetCode Solutions in C++23, Java, Python, MySQL, and TypeScript.">
+      
+      
+        <meta name="author" content="P.-Y. Chen">
+      
+      
+        <link rel="canonical" href="https://walkccc.me/LeetCode/topics/data-structures/hashing-and-sets/">
+      
+      
+        <link rel="prev" href="../graph/">
+      
+      
+        <link rel="next" href="../stack-and-queue/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Hashing & Sets - LeetCode Solutions</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Lato";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/extra.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BCZ32RGHJ0"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BCZ32RGHJ0",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BCZ32RGHJ0",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tag:hash-function" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+             Tired of endless grinding? Check
+out
+<a href="https://algo.monster?fpr=pyc"
+  ><strong class="algo-monster">AlgoMonster</strong></a
+>
+for a structured approach to coding interviews. 
+          </div>
+          
+        </aside>
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LeetCode Solutions" class="md-header__button md-logo" aria-label="LeetCode Solutions" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M360.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6m64.6 136.1c-12.5 12.5-12.5 32.8 0 45.3l73.4 73.4-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0zm-274.7 0c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l73.3-73.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LeetCode Solutions
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hashing & Sets
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-green"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search ('/' to focus)" placeholder="Search ('/' to focus)" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/walkccc/LeetCode" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    walkccc/LeetCode
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../styleguide/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Style Guide
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../fundamental/" class="md-tabs__link">
+          
+  
+  
+  Topics
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../problems/1/" class="md-tabs__link">
+          
+  
+  
+  Problems
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LeetCode Solutions" class="md-nav__button md-logo" aria-label="LeetCode Solutions" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M360.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6m64.6 136.1c-12.5 12.5-12.5 32.8 0 45.3l73.4 73.4-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0zm-274.7 0c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l73.3-73.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
+
+    </a>
+    LeetCode Solutions
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/walkccc/LeetCode" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    walkccc/LeetCode
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+        
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+      
+    
+      
+      
+        
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../styleguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Style Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+      
+    
+      
+      
+        
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Topics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Topics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    I. Data Structures
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            I. Data Structures
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundamental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fundamental
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Graph
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Hashing & Sets
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hashing & Sets
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tag:hash-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hash Function
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag:hash-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hash Table
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag:ordered-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ordered Set
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag:rolling-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rolling Hash
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack-and-queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stack & Queue
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    II. Algorithms
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            II. Algorithms
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Search
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/sorting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sorting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/recursion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Recursion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dynamic Programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/mathematics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mathematics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    III. System Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            III. System Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Database
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Design
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/data-stream/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Stream
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/iterator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iterator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Concurrency
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/shell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IV. Special Topics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            IV. Special Topics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/game-theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Game Theory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Interactive
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/simulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Simulation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/rolling-hash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Rolling Hash
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sampling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/randomized/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Randomized
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/brainteaser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Brainteaser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+      
+    
+      
+      
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tag:hash-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hash Function
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag:hash-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hash Table
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag:ordered-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ordered Set
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag:rolling-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rolling Hash
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Hashing & Sets</h1>
+
+
+
+  <h2 id="tag:hash-function">
+
+
+<span class="md-tag">Hash Function</span><a class="headerlink" href="#tag:hash-function" title="Permanent link">&para;</a></h2>
+  <ul>
+    
+      <li>
+        <a href="../../../problems/3529/">
+          3529. Count Cells in Overlapping Horizontal and Vertical Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3327/">
+          3327. Check if DFS Strings Are Palindromes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3292/">
+          3292. Minimum Number of Valid Strings to Form Target II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3291/">
+          3291. Minimum Number of Valid Strings to Form Target I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3135/">
+          3135. Equalize Strings by Adding or Removing Characters at Ends
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3045/">
+          3045. Count Prefix and Suffix Pairs II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3042/">
+          3042. Count Prefix and Suffix Pairs I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3037/">
+          3037. Find Pattern in Infinite Stream II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3036/">
+          3036. Number of Subarrays That Match a Pattern II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3034/">
+          3034. Number of Subarrays That Match a Pattern I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3031/">
+          3031. Minimum Time to Revert Word to Initial State II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3029/">
+          3029. Minimum Time to Revert Word to Initial State I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3023/">
+          3023. Find Pattern in Infinite Stream I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3008/">
+          3008. Find Beautiful Indices in the Given Array II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3006/">
+          3006. Find Beautiful Indices in the Given Array I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2430/">
+          2430. Maximum Deletions on a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2261/">
+          2261. K Divisible Elements Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2223/">
+          2223. Sum of Scores of Built Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2168/">
+          2168. Unique Substrings With Equal Digit Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2156/">
+          2156. Find Substring With Given Hash Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1960/">
+          1960. Maximum Product of the Length of Two Palindromic Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1948/">
+          1948. Delete Duplicate Folders in System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1923/">
+          1923. Longest Common Subpath
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1698/">
+          1698. Number of Distinct Substrings in a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1554/">
+          1554. Strings Differ by One Character
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1461/">
+          1461. Check If a String Contains All Binary Codes of Size K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1392/">
+          1392. Longest Happy Prefix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1316/">
+          1316. Distinct Echo Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1147/">
+          1147. Longest Chunked Palindrome Decomposition
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1062/">
+          1062. Longest Repeating Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1044/">
+          1044. Longest Duplicate Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/718/">
+          718. Maximum Length of Repeated Subarray
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/711/">
+          711. Number of Distinct Islands II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/706/">
+          706. Design HashMap
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/705/">
+          705. Design HashSet
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/694/">
+          694. Number of Distinct Islands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/572/">
+          572. Subtree of Another Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/535/">
+          535. Encode and Decode TinyURL
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/214/">
+          214. Shortest Palindrome
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/187/">
+          187. Repeated DNA Sequences
+        </a>
+      </li>
+    
+    
+  </ul>
+
+
+
+  <h2 id="tag:hash-table">
+
+
+<span class="md-tag">Hash Table</span><a class="headerlink" href="#tag:hash-table" title="Permanent link">&para;</a></h2>
+  <ul>
+    
+      <li>
+        <a href="../../../problems/3557/">
+          3557. Find Maximum Number of Non Intersecting Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3556/">
+          3556. Sum of Largest Prime Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3552/">
+          3552. Grid Teleportation Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3551/">
+          3551. Minimum Swaps to Sort by Digit Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3548/">
+          3548. Equal Sum Grid Partition II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3545/">
+          3545. Minimum Deletions for At Most K Distinct Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3543/">
+          3543. Maximum Weighted K-Edge Path
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3542/">
+          3542. Minimum Operations to Convert All Elements to Zero
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3541/">
+          3541. Find Most Frequent Vowel and Consonant
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3532/">
+          3532. Path Existence Queries in a Graph I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3531/">
+          3531. Count Covered Buildings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3527/">
+          3527. Find the Most Common Response
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3522/">
+          3522. Calculate Score After Performing Instructions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3518/">
+          3518. Smallest Palindromic Rearrangement II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3510/">
+          3510. Minimum Pair Removal to Sort Array II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3509/">
+          3509. Maximum Product of Subsequences With an Alternating Sum Equal to K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3508/">
+          3508. Implement Router
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3507/">
+          3507. Minimum Pair Removal to Sort Array I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3505/">
+          3505. Minimum Operations to Make Elements Within K Subarrays Equal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3493/">
+          3493. Properties Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3488/">
+          3488. Closest Equal Element Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3487/">
+          3487. Maximum Unique Subarray Sum After Deletion
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3486/">
+          3486. Longest Special Path II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3484/">
+          3484. Design Spreadsheet
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3483/">
+          3483. Unique 3-Digit Even Numbers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3481/">
+          3481. Apply Substitutions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3471/">
+          3471. Find the Largest Almost Missing Integer
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3458/">
+          3458. Select K Disjoint Special Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3450/">
+          3450. Maximum Students on a Single Bench
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3447/">
+          3447. Assign Elements to Groups with Constraints
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3443/">
+          3443. Maximum Manhattan Distance After K Changes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3442/">
+          3442. Maximum Difference Between Even and Odd Frequency I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3438/">
+          3438. Find Valid Pair of Adjacent Digits in String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3434/">
+          3434. Maximum Frequency After Subarray Operation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3431/">
+          3431. Minimum Unlocked Indices to Sort Nums
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3425/">
+          3425. Longest Special Path
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3422/">
+          3422. Minimum Operations to Make Subarray Elements Equal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3416/">
+          3416. Subsequences with a Unique Middle Mode II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3412/">
+          3412. Find Mirror Score of a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3408/">
+          3408. Design Task Manager
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3404/">
+          3404. Count Special Subsequences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3396/">
+          3396. Minimum Number of Operations to Make Elements in Array Distinct
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3395/">
+          3395. Subsequences with a Unique Middle Mode I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3391/">
+          3391. Design a 3D Binary Matrix with Efficient Layer Tracking
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3389/">
+          3389. Minimum Operations to Make Character Frequencies Equal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3381/">
+          3381. Maximum Subarray Sum With Length Divisible by K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3378/">
+          3378. Count Connected Components in LCM Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3375/">
+          3375. Minimum Operations to Make Array Values Equal to K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3371/">
+          3371. Identify the Largest Outlier in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3369/">
+          3369. Design an Array Statistics Tracker 
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3365/">
+          3365. Rearrange K Substrings to Form Target String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3351/">
+          3351. Sum of Good Subsequences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3337/">
+          3337. Total Characters in String After Transformations II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3335/">
+          3335. Total Characters in String After Transformations I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3331/">
+          3331. Find Subtree Sizes After Changes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3329/">
+          3329. Count Substrings With K-Frequency Characters II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3327/">
+          3327. Check if DFS Strings Are Palindromes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3325/">
+          3325. Count Substrings With K-Frequency Characters I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3321/">
+          3321. Find X-Sum of All K-Long Subarrays II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3318/">
+          3318. Find X-Sum of All K-Long Subarrays I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3316/">
+          3316. Find Maximum Removals From Source String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3312/">
+          3312. Sorted GCD Pair Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3311/">
+          3311. Construct 2D Grid Matching Graph Layout
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3306/">
+          3306. Count of Substrings Containing Every Vowel and K Consonants II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3305/">
+          3305. Count of Substrings Containing Every Vowel and K Consonants I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3299/">
+          3299. Sum of Consecutive Subsequences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3298/">
+          3298. Count Substrings That Can Be Rearranged to Contain a String II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3297/">
+          3297. Count Substrings That Can Be Rearranged to Contain a String I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3295/">
+          3295. Report Spam Message
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3289/">
+          3289. The Two Sneaky Numbers of Digitville
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3279/">
+          3279. Maximum Total Area Occupied by Pistons
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3272/">
+          3272. Find the Count of Good Integers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3267/">
+          3267. Count Almost Equal Pairs II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3265/">
+          3265. Count Almost Equal Pairs I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3242/">
+          3242. Design Neighbor Sum Service
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3238/">
+          3238. Find the Number of Winning Players
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3237/">
+          3237. Alt and Tab Simulation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3224/">
+          3224. Minimum Array Changes to Make Differences Equal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3223/">
+          3223. Minimum Length of String After Operations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3217/">
+          3217. Delete Nodes From Linked List Present in Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3186/">
+          3186. Maximum Total Damage With Spell Casting
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3185/">
+          3185. Count Pairs That Form a Complete Day II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3184/">
+          3184. Count Pairs That Form a Complete Day I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3177/">
+          3177. Find the Maximum Length of a Good Subsequence II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3176/">
+          3176. Find the Maximum Length of a Good Subsequence I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3170/">
+          3170. Lexicographically Minimum String After Removing Stars
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3167/">
+          3167. Better Compression of String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3164/">
+          3164. Find the Number of Good Pairs II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3162/">
+          3162. Find the Number of Good Pairs I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3160/">
+          3160. Find the Number of Distinct Colors Among the Balls
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3159/">
+          3159. Find Occurrences of an Element in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3158/">
+          3158. Find the XOR of Numbers Which Appear Twice
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3153/">
+          3153. Sum of Digit Differences of All Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3146/">
+          3146. Permutation Difference between Two Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3144/">
+          3144. Minimum Substring Partition of Equal Character Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3143/">
+          3143. Maximum Points Inside the Square
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3138/">
+          3138. Minimum Length of Anagram Concatenation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3137/">
+          3137. Minimum Number of Operations to Make Word K-Periodic
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3134/">
+          3134. Find the Median of the Uniqueness Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3128/">
+          3128. Right Triangles
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3121/">
+          3121. Count the Number of Special Characters II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3120/">
+          3120. Count the Number of Special Characters I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3104/">
+          3104. Find Longest Self-Contained Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3092/">
+          3092. Most Frequent IDs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3090/">
+          3090. Maximum Length Substring With Two Occurrences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3085/">
+          3085. Minimum Deletions to Make String K-Special
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3083/">
+          3083. Existence of a Substring in a String and Its Reverse
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3081/">
+          3081. Replace Question Marks in String to Minimize Its Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3080/">
+          3080. Mark Elements on Array by Performing Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3078/">
+          3078. Match Alphanumerical Pattern in Matrix I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3076/">
+          3076. Shortest Uncommon Substring in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3071/">
+          3071. Minimum Operations to Write the Letter Y on a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3063/">
+          3063. Linked List Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3046/">
+          3046. Split the Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3044/">
+          3044. Most Frequent Prime
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3043/">
+          3043. Find the Length of the Longest Common Prefix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3039/">
+          3039. Apply Operations to Make String Empty
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3035/">
+          3035. Maximum Palindromes After Operations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3032/">
+          3032. Count Numbers With Unique Digits II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3026/">
+          3026. Maximum Good Subarray Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3020/">
+          3020. Find the Maximum Number of Elements in Subset
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3016/">
+          3016. Minimum Number of Pushes to Type Word II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3013/">
+          3013. Divide an Array Into Subarrays With Minimum Cost II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3005/">
+          3005. Count Elements With Maximum Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3002/">
+          3002. Maximum Size of a Set After Removals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2996/">
+          2996. Smallest Missing Integer Greater Than Sequential Prefix Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2983/">
+          2983. Palindrome Rearrangement Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2982/">
+          2982. Find Longest Special Substring That Occurs Thrice II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2981/">
+          2981. Find Longest Special Substring That Occurs Thrice I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2975/">
+          2975. Maximum Square Area by Removing Fences From a Field
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2965/">
+          2965. Find Missing and Repeated Values
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2964/">
+          2964. Number of Divisible Triplet Sums
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2963/">
+          2963. Count the Number of Good Partitions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2958/">
+          2958. Length of Longest Subarray With at Most K Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2956/">
+          2956. Find Common Elements Between Two Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2955/">
+          2955. Number of Same-End Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2953/">
+          2953. Count Complete Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2950/">
+          2950. Number of Divisible Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2949/">
+          2949. Count Beautiful Substrings II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2947/">
+          2947. Count Beautiful Substrings I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2935/">
+          2935. Maximum Strong Pair XOR II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2933/">
+          2933. High-Access Employees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2932/">
+          2932. Maximum Strong Pair XOR I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2913/">
+          2913. Subarrays Distinct Element Sum of Squares I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2910/">
+          2910. Minimum Number of Groups to Create a Valid Assignment
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2902/">
+          2902. Count of Sub-Multisets With Bounded Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2898/">
+          2898. Maximum Linear Stock Score
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2897/">
+          2897. Apply Operations on Array to Maximize Sum of Squares
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2875/">
+          2875. Minimum Size Subarray in Infinite Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2870/">
+          2870. Minimum Number of Operations to Make Array Empty
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2869/">
+          2869. Minimum Operations to Collect Elements
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2857/">
+          2857. Count Pairs of Points With Distance k
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2856/">
+          2856. Minimum Array Length After Pair Removals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2852/">
+          2852. Sum of Remoteness of All Cells
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2848/">
+          2848. Points That Intersect With Cars
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2845/">
+          2845. Count of Interesting Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2842/">
+          2842. Count K-Subsequences of a String With Maximum Beauty
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2841/">
+          2841. Maximum Sum of Almost Unique Subarray
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2840/">
+          2840. Check if Strings Can be Made Equal With Operations II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2831/">
+          2831. Find the Longest Equal Subarray
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2830/">
+          2830. Maximize the Profit as the Salesman
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2815/">
+          2815. Max Pair Sum in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2813/">
+          2813. Maximum Elegance of a K-Length Subsequence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2808/">
+          2808. Minimum Seconds to Equalize a Circular Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2799/">
+          2799. Count Complete Subarrays in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2784/">
+          2784. Check if Array is Good
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2781/">
+          2781. Length of the Longest Valid Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2780/">
+          2780. Minimum Index of a Valid Split
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2768/">
+          2768. Number of Black Blocks
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2767/">
+          2767. Partition String Into Minimum Beautiful Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2766/">
+          2766. Relocate Marbles
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2763/">
+          2763. Sum of Imbalance Numbers of All Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2748/">
+          2748. Number of Beautiful Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2747/">
+          2747. Count Zero Request Servers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2744/">
+          2744. Find Maximum Number of String Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2743/">
+          2743. Count Substrings Without Repeating Character
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2732/">
+          2732. Find a Good Subset of the Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2729/">
+          2729. Check if The Number is Fascinating
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2718/">
+          2718. Sum of Matrix After Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2716/">
+          2716. Minimize String Length
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2713/">
+          2713. Maximum Strictly Increasing Cells in a Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2711/">
+          2711. Difference of Number of Distinct Values on Diagonals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2707/">
+          2707. Extra Characters in a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2682/">
+          2682. Find the Losers of the Circular Game
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2671/">
+          2671. Frequency Tracker
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2670/">
+          2670. Find the Distinct Difference Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2661/">
+          2661. First Completely Painted Row or Column
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2657/">
+          2657. Find the Prefix Common Array of Two Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2653/">
+          2653. Sliding Subarray Beauty
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2641/">
+          2641. Cousins in Binary Tree II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2615/">
+          2615. Sum of Distances
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2610/">
+          2610. Convert an Array Into a 2D Array With Conditions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2606/">
+          2606. Find the Substring With Maximum Cost
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2605/">
+          2605. Form Smallest Number From Two Digit Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2598/">
+          2598. Smallest Missing Non-negative Integer After Operations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2597/">
+          2597. The Number of Beautiful Subsets
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2593/">
+          2593. Find Score of an Array After Marking All Elements
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2590/">
+          2590. Design a Todo List
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2588/">
+          2588. Count the Number of Beautiful Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2584/">
+          2584. Split the Array to Make Coprime Products
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2581/">
+          2581. Count Number of Possible Root Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2570/">
+          2570. Merge Two 2D Arrays by Summing Values
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2564/">
+          2564. Substring XOR Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2561/">
+          2561. Rearranging Fruits
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2554/">
+          2554. Maximum Number of Integers to Choose From a Range I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2549/">
+          2549. Count Distinct Numbers on Board
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2547/">
+          2547. Minimum Cost to Split an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2540/">
+          2540. Minimum Common Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2539/">
+          2539. Count the Number of Good Subsequences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2537/">
+          2537. Count the Number of Good Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2531/">
+          2531. Make Number of Distinct Characters Equal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2526/">
+          2526. Find Consecutive Integers from a Data Stream
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2524/">
+          2524. Maximum Frequency Score of a Subarray
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2521/">
+          2521. Distinct Prime Factors of Product of Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2516/">
+          2516. Take K of Each Character From Left and Right
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2514/">
+          2514. Count Anagrams
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2512/">
+          2512. Reward Top K Students
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2508/">
+          2508. Add Edges to Make Degrees of All Nodes Even
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2506/">
+          2506. Count Pairs Of Similar Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2502/">
+          2502. Design Memory Allocator
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2501/">
+          2501. Longest Square Streak in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2499/">
+          2499. Minimum Total Cost to Make Arrays Unequal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2491/">
+          2491. Divide Players Into Teams of Equal Skill
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2489/">
+          2489. Number of Substrings With Fixed Ratio
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2488/">
+          2488. Count Subarrays With Median K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2475/">
+          2475. Number of Unequal Triplets in Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2465/">
+          2465. Number of Distinct Averages
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2461/">
+          2461. Maximum Sum of Distinct Subarrays With Length K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2456/">
+          2456. Most Popular Video Creator
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2453/">
+          2453. Destroy Sequential Targets
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2451/">
+          2451. Odd String Difference
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2442/">
+          2442. Count Number of Distinct Integers After Reverse Operations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2441/">
+          2441. Largest Positive Integer That Exists With Its Negative
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2434/">
+          2434. Using a Robot to Print the Lexicographically Smallest String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2424/">
+          2424. Longest Uploaded Prefix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2423/">
+          2423. Remove Letter To Equalize Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2421/">
+          2421. Number of Good Paths
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2418/">
+          2418. Sort the People
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2408/">
+          2408. Design SQL
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2405/">
+          2405. Optimal Partition of String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2404/">
+          2404. Most Frequent Even Element
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2402/">
+          2402. Meeting Rooms III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2399/">
+          2399. Check Distances Between Same Letters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2395/">
+          2395. Find Subarrays With Equal Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2385/">
+          2385. Amount of Time for Binary Tree to Be Infected
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2384/">
+          2384. Largest Palindromic Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2374/">
+          2374. Node With Highest Edge Score
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2370/">
+          2370. Longest Ideal Subsequence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2368/">
+          2368. Reachable Nodes With Restrictions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2367/">
+          2367. Number of Arithmetic Triplets
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2365/">
+          2365. Task Scheduler II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2364/">
+          2364. Count Number of Bad Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2363/">
+          2363. Merge Similar Items
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2357/">
+          2357. Make Array Zero by Subtracting Equal Amounts
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2354/">
+          2354. Number of Excellent Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2353/">
+          2353. Design a Food Rating System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2352/">
+          2352. Equal Row and Column Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2351/">
+          2351. First Letter to Appear Twice
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2350/">
+          2350. Shortest Impossible Sequence of Rolls
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2349/">
+          2349. Design a Number Container System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2347/">
+          2347. Best Poker Hand
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2342/">
+          2342. Max Sum of a Pair With Equal Sum of Digits
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2341/">
+          2341. Maximum Number of Pairs in Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2336/">
+          2336. Smallest Number in Infinite Set
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2325/">
+          2325. Decode the Message
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2309/">
+          2309. Greatest English Letter in Upper and Lower Case
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2306/">
+          2306. Naming a Company
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2301/">
+          2301. Match Substring After Replacement
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2295/">
+          2295. Replace Elements in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2287/">
+          2287. Rearrange Characters to Make Target String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2284/">
+          2284. Sender With Largest Word Count
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2283/">
+          2283. Check if Number Has Equal Digit Count and Digit Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2275/">
+          2275. Largest Combination With Bitwise AND Greater Than Zero
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2273/">
+          2273. Find Resultant Array After Removing Anagrams
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2268/">
+          2268. Minimum Number of Keypresses
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2266/">
+          2266. Count Number of Texts
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2262/">
+          2262. Total Appeal of A String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2261/">
+          2261. K Divisible Elements Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2260/">
+          2260. Minimum Consecutive Cards to Pick Up
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2254/">
+          2254. Design Video Sharing Platform
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2251/">
+          2251. Number of Flowers in Full Bloom
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2250/">
+          2250. Count Number of Rectangles Containing Each Point
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2249/">
+          2249. Count Lattice Points Inside a Circle
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2248/">
+          2248. Intersection of Multiple Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2244/">
+          2244. Minimum Rounds to Complete All Tasks
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2229/">
+          2229. Check if an Array Is Consecutive
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2227/">
+          2227. Encrypt and Decrypt Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2225/">
+          2225. Find Players With Zero or One Losses
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2215/">
+          2215. Find the Difference of Two Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2206/">
+          2206. Divide Array Into Equal Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2201/">
+          2201. Count Artifacts That Can Be Extracted
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2196/">
+          2196. Create Binary Tree From Descriptions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2190/">
+          2190. Most Frequent Number Following Key In an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2186/">
+          2186. Minimum Number of Steps to Make Two Strings Anagram II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2182/">
+          2182. Construct String With Repeat Limit
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2170/">
+          2170. Minimum Operations to Make the Array Alternating
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2168/">
+          2168. Unique Substrings With Equal Digit Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2166/">
+          2166. Design Bitset
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2154/">
+          2154. Keep Multiplying Found Values by Two
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2152/">
+          2152. Minimum Number of Lines to Cover Points
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2150/">
+          2150. Find All Lonely Numbers in the Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2135/">
+          2135. Count Words Obtained After Adding a Letter
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2133/">
+          2133. Check if Every Row and Column Contains All Numbers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2131/">
+          2131. Longest Palindrome by Concatenating Two Letter Words
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2122/">
+          2122. Recover the Original Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2121/">
+          2121. Intervals Between Identical Elements
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2115/">
+          2115. Find All Possible Recipes from Given Supplies
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2107/">
+          2107. Number of Unique Flavors After Sharing K Candies
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2103/">
+          2103. Rings and Rods
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2099/">
+          2099. Find Subsequence of Length K With the Largest Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2094/">
+          2094. Finding 3-Digit Even Numbers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2085/">
+          2085. Count Common Words With One Occurrence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2083/">
+          2083. Substrings That Begin and End With the Same Letter
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2080/">
+          2080. Range Frequency Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2068/">
+          2068. Check Whether Two Strings are Almost Equivalent
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2067/">
+          2067. Number of Equal Count Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2062/">
+          2062. Count Vowel Substrings of a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2053/">
+          2053. Kth Distinct String in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2048/">
+          2048. Next Greater Numerically Balanced Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2043/">
+          2043. Simple Bank System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2034/">
+          2034. Stock Price Fluctuation 
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2032/">
+          2032. Two Out of Three
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2025/">
+          2025. Maximum Number of Ways to Partition an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2023/">
+          2023. Number of Pairs of Strings With Concatenation Equal to Target
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2019/">
+          2019. The Score of Students Solving Math Expression
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2013/">
+          2013. Detect Squares
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2009/">
+          2009. Minimum Number of Operations to Make Array Continuous
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2008/">
+          2008. Maximum Earnings From Taxi
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2007/">
+          2007. Find Original Array From Doubled Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2006/">
+          2006. Count Number of Pairs With Absolute Difference K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2001/">
+          2001. Number of Pairs of Interchangeable Rectangles
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1995/">
+          1995. Count Special Quadruplets
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1994/">
+          1994. The Number of Good Subsets
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1993/">
+          1993. Operations on Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1983/">
+          1983. Widest Pair of Indices With Equal Range Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1980/">
+          1980. Find Unique Binary String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1948/">
+          1948. Delete Duplicate Folders in System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1943/">
+          1943. Describe the Painting
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1942/">
+          1942. The Number of the Smallest Unoccupied Chair
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1941/">
+          1941. Check if All Characters Have Equal Number of Occurrences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1940/">
+          1940. Longest Common Subsequence Between Sorted Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1938/">
+          1938. Maximum Genetic Difference Query
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1935/">
+          1935. Maximum Number of Words You Can Type
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1932/">
+          1932. Merge BSTs to Create Single BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1930/">
+          1930. Unique Length-3 Palindromic Subsequences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1915/">
+          1915. Number of Wonderful Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1912/">
+          1912. Design Movie Rental System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1906/">
+          1906. Minimum Absolute Difference Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1897/">
+          1897. Redistribute Characters to Make All Strings Equal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1893/">
+          1893. Check if All the Integers in a Range Are Covered
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1876/">
+          1876. Substrings of Size Three with Distinct Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1865/">
+          1865. Finding Pairs With a Certain Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1857/">
+          1857. Largest Color Value in a Directed Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1852/">
+          1852. Distinct Numbers in Each Subarray
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1836/">
+          1836. Remove Duplicates From an Unsorted Linked List
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1832/">
+          1832. Check if the Sentence Is Pangram
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1817/">
+          1817. Finding the Users Active Minutes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1814/">
+          1814. Count Nice Pairs in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1807/">
+          1807. Evaluate the Bracket Pairs of a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1805/">
+          1805. Number of Different Integers in a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1804/">
+          1804. Implement Trie II (Prefix Tree)
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1797/">
+          1797. Design Authentication Manager
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1796/">
+          1796. Second Largest Digit in a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1794/">
+          1794. Count Pairs of Equal Substrings With Minimum Difference
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1790/">
+          1790. Check if One String Swap Can Make Strings Equal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1788/">
+          1788. Maximize the Beauty of the Garden
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1782/">
+          1782. Count Pairs Of Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1781/">
+          1781. Sum of Beauty of All Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1775/">
+          1775. Equal Sum Arrays With Minimum Number of Operations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1772/">
+          1772. Sort Features by Popularity
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1763/">
+          1763. Longest Nice Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1756/">
+          1756. Design Most Recently Used Queue
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1748/">
+          1748. Sum of Unique Elements
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1743/">
+          1743. Restore the Array From Adjacent Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1742/">
+          1742. Maximum Number of Balls in a Box
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1740/">
+          1740. Find Distance in a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1737/">
+          1737. Change Minimum Characters to Satisfy One of Three Conditions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1733/">
+          1733. Minimum Number of People to Teach
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1726/">
+          1726. Tuple with Same Product
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1713/">
+          1713. Minimum Operations to Make a Subsequence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1711/">
+          1711. Count Good Meals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1695/">
+          1695. Maximum Erasure Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1684/">
+          1684. Count the Number of Consistent Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1679/">
+          1679. Max Number of K-Sum Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1676/">
+          1676. Lowest Common Ancestor of a Binary Tree IV
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1674/">
+          1674. Minimum Moves to Make Array Complementary
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1660/">
+          1660. Correct a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1658/">
+          1658. Minimum Operations to Reduce X to Zero
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1657/">
+          1657. Determine if Two Strings Are Close
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1656/">
+          1656. Design an Ordered Stream
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1650/">
+          1650. Lowest Common Ancestor of a Binary Tree III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1647/">
+          1647. Minimum Deletions to Make Character Frequencies Unique
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1640/">
+          1640. Check Array Formation Through Concatenation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1638/">
+          1638. Count Substrings That Differ by One Character
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1636/">
+          1636. Sort Array by Increasing Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1630/">
+          1630. Arithmetic Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1624/">
+          1624. Largest Substring Between Two Equal Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1612/">
+          1612. Check If Two Expression Trees are Equivalent
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1604/">
+          1604. Alert Using Same Key-Card Three or More Times in a One Hour Period
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1600/">
+          1600. Throne Inheritance
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1593/">
+          1593. Split a String Into the Max Number of Unique Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1590/">
+          1590. Make Sum Divisible by P
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1577/">
+          1577. Number of Ways Where Square of Number Is Equal to Product of Two Numbers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1570/">
+          1570. Dot Product of Two Sparse Vectors
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1562/">
+          1562. Find Latest Group of Size M
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1554/">
+          1554. Strings Differ by One Character
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1546/">
+          1546. Maximum Number of Non-Overlapping Subarrays With Sum Equals Target
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1542/">
+          1542. Find Longest Awesome Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1540/">
+          1540. Can Convert String in K Moves
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1525/">
+          1525. Number of Good Ways to Split a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1519/">
+          1519. Number of Nodes in the Sub-Tree With the Same Label
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1512/">
+          1512. Number of Good Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1506/">
+          1506. Find Root of N-Ary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1500/">
+          1500. Design a File Sharing System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1497/">
+          1497. Check If Array Pairs Are Divisible by k
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1496/">
+          1496. Path Crossing
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1490/">
+          1490. Clone N-ary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1488/">
+          1488. Avoid Flood in The City
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1487/">
+          1487. Making File Names Unique
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1485/">
+          1485. Clone Binary Tree With Random Pointer
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1481/">
+          1481. Least Number of Unique Integers after K Removals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1477/">
+          1477. Find Two Non-overlapping Sub-arrays Each With Target Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1461/">
+          1461. Check If a String Contains All Binary Codes of Size K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1460/">
+          1460. Make Two Arrays Equal by Reversing Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1452/">
+          1452. People Whose List of Favorite Companies Is Not a Subset of Another List
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1443/">
+          1443. Minimum Time to Collect All Apples in a Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1442/">
+          1442. Count Triplets That Can Form Two Arrays of Equal XOR
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1436/">
+          1436. Destination City
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1429/">
+          1429. First Unique Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1426/">
+          1426. Counting Elements
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1418/">
+          1418. Display Table of Food Orders in a Restaurant
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1410/">
+          1410. HTML Entity Parser
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1400/">
+          1400. Construct K Palindrome Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1399/">
+          1399. Count Largest Group
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1396/">
+          1396. Design Underground System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1394/">
+          1394. Find Lucky Integer in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1386/">
+          1386. Cinema Seat Allocation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1371/">
+          1371. Find the Longest Substring Containing Vowels in Even Counts
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1370/">
+          1370. Increasing Decreasing String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1366/">
+          1366. Rank Teams by Votes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1365/">
+          1365. How Many Numbers Are Smaller Than the Current Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1358/">
+          1358. Number of Substrings Containing All Three Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1357/">
+          1357. Apply Discount Every n Orders
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1348/">
+          1348. Tweet Counts Per Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1347/">
+          1347. Minimum Number of Steps to Make Two Strings Anagram
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1346/">
+          1346. Check If N and Its Double Exist
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1345/">
+          1345. Jump Game IV
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1338/">
+          1338. Reduce Array Size to The Half
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1331/">
+          1331. Rank Transform of an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1311/">
+          1311. Get Watched Videos by Your Friends
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1297/">
+          1297. Maximum Number of Occurrences of a Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1296/">
+          1296. Divide Array in Sets of K Consecutive Numbers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1284/">
+          1284. Minimum Number of Flips to Convert Binary Matrix to Zero Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1282/">
+          1282. Group the People Given the Group Size They Belong To
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1275/">
+          1275. Find Winner on a Tic Tac Toe Game
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1261/">
+          1261. Find Elements in a Contaminated Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1258/">
+          1258. Synonymous Sentences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1257/">
+          1257. Smallest Common Region
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1248/">
+          1248. Count Number of Nice Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1244/">
+          1244. Design A Leaderboard
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1224/">
+          1224. Maximum Equal Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1218/">
+          1218. Longest Arithmetic Subsequence of Given Difference
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1213/">
+          1213. Intersection of Three Sorted Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1207/">
+          1207. Unique Number of Occurrences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1202/">
+          1202. Smallest String With Swaps
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1198/">
+          1198. Find Smallest Common Element in All Rows
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1189/">
+          1189. Maximum Number of Balloons
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1181/">
+          1181. Before and After Puzzle
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1178/">
+          1178. Number of Valid Words for Each Puzzle
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1177/">
+          1177. Can Make Palindrome from Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1172/">
+          1172. Dinner Plate Stacks
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1171/">
+          1171. Remove Zero Sum Consecutive Nodes from Linked List
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1170/">
+          1170. Compare Strings by Frequency of the Smallest Character
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1169/">
+          1169. Invalid Transactions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1166/">
+          1166. Design File System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1165/">
+          1165. Single-Row Keyboard
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1160/">
+          1160. Find Words That Can Be Formed by Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1156/">
+          1156. Swap For Longest Repeated Character Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1153/">
+          1153. String Transforms Into Another String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1152/">
+          1152. Analyze User Website Visit Pattern
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1146/">
+          1146. Snapshot Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1138/">
+          1138. Alphabet Board Path
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1133/">
+          1133. Largest Unique Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1128/">
+          1128. Number of Equivalent Domino Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1124/">
+          1124. Longest Well-Performing Interval
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1123/">
+          1123. Lowest Common Ancestor of Deepest Leaves
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1122/">
+          1122. Relative Sort Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1110/">
+          1110. Delete Nodes And Return Forest
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1100/">
+          1100. Find K-Length Substrings With No Repeated Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1090/">
+          1090. Largest Values From Labels
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1086/">
+          1086. High Five
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1079/">
+          1079. Letter Tile Possibilities
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1074/">
+          1074. Number of Submatrices That Sum to Target
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1072/">
+          1072. Flip Columns For Maximum Number of Equal Rows
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1054/">
+          1054. Distant Barcodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1048/">
+          1048. Longest String Chain
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1036/">
+          1036. Escape a Large Maze
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1027/">
+          1027. Longest Arithmetic Subsequence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1016/">
+          1016. Binary String With Substrings Representing 1 To N
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1015/">
+          1015. Smallest Integer Divisible by K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1010/">
+          1010. Pairs of Songs With Total Durations Divisible by 60
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1002/">
+          1002. Find Common Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1001/">
+          1001. Grid Illumination
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/997/">
+          997. Find the Town Judge
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/996/">
+          996. Number of Squareful Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/992/">
+          992. Subarrays with K Different Integers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/987/">
+          987. Vertical Order Traversal of a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/982/">
+          982. Triples with Bitwise AND Equal To Zero
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/981/">
+          981. Time Based Key-Value Store
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/974/">
+          974. Subarray Sums Divisible by K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/970/">
+          970. Powerful Integers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/966/">
+          966. Vowel Spellchecker
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/963/">
+          963. Minimum Area Rectangle II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/961/">
+          961. N-Repeated Element in Size 2N Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/959/">
+          959. Regions Cut By Slashes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/957/">
+          957. Prison Cells After N Days
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/954/">
+          954. Array of Doubled Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/953/">
+          953. Verifying an Alien Dictionary
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/952/">
+          952. Largest Component Size by Common Factor
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/947/">
+          947. Most Stones Removed with Same Row or Column
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/939/">
+          939. Minimum Area Rectangle
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/930/">
+          930. Binary Subarrays With Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/929/">
+          929. Unique Email Addresses
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/928/">
+          928. Minimize Malware Spread II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/924/">
+          924. Minimize Malware Spread
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/923/">
+          923. 3Sum With Multiplicity
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/916/">
+          916. Word Subsets
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/914/">
+          914. X of a Kind in a Deck of Cards
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/911/">
+          911. Online Election
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/904/">
+          904. Fruit Into Baskets
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/895/">
+          895. Maximum Frequency Stack
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/893/">
+          893. Groups of Special-Equivalent Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/890/">
+          890. Find and Replace Pattern
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/889/">
+          889. Construct Binary Tree from Preorder and Postorder Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/888/">
+          888. Fair Candy Swap
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/884/">
+          884. Uncommon Words from Two Sentences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/874/">
+          874. Walking Robot Simulation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/873/">
+          873. Length of Longest Fibonacci Subsequence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/869/">
+          869. Reordered Power of 2
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/865/">
+          865. Smallest Subtree with all the Deepest Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/863/">
+          863. All Nodes Distance K in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/859/">
+          859. Buddy Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/854/">
+          854. K-Similar Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/846/">
+          846. Hand of Straights
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/840/">
+          840. Magic Squares In Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/839/">
+          839. Similar String Groups
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/833/">
+          833. Find And Replace in String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/828/">
+          828. Count Unique Characters of All Substrings of a Given String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/823/">
+          823. Binary Trees With Factors
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/822/">
+          822. Card Flipping Game
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/820/">
+          820. Short Encoding of Words
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/819/">
+          819. Most Common Word
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/817/">
+          817. Linked List Components
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/815/">
+          815. Bus Routes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/811/">
+          811. Subdomain Visit Count
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/804/">
+          804. Unique Morse Code Words
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/792/">
+          792. Number of Matching Subsequences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/791/">
+          791. Custom Sort String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/781/">
+          781. Rabbits in Forest
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/771/">
+          771. Jewels and Stones
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/770/">
+          770. Basic Calculator IV
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/767/">
+          767. Reorganize String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/763/">
+          763. Partition Labels
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/760/">
+          760. Find Anagram Mappings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/758/">
+          758. Bold Words in String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/752/">
+          752. Open the Lock
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/748/">
+          748. Shortest Completing Word
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/745/">
+          745. Prefix and Suffix Search
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/740/">
+          740. Delete and Earn
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/737/">
+          737. Sentence Similarity II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/736/">
+          736. Parse Lisp Expression
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/734/">
+          734. Sentence Similarity
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/726/">
+          726. Number of Atoms
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/721/">
+          721. Accounts Merge
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/720/">
+          720. Longest Word in Dictionary
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/711/">
+          711. Number of Distinct Islands II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/710/">
+          710. Random Pick with Blacklist
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/706/">
+          706. Design HashMap
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/705/">
+          705. Design HashSet
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/697/">
+          697. Degree of an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/694/">
+          694. Number of Distinct Islands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/692/">
+          692. Top K Frequent Words
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/691/">
+          691. Stickers to Spell Word
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/690/">
+          690. Employee Importance
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/681/">
+          681. Next Closest Time
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/677/">
+          677. Map Sum Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/676/">
+          676. Implement Magic Dictionary
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/666/">
+          666. Path Sum IV
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/659/">
+          659. Split Array into Consecutive Subsequences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/653/">
+          653. Two Sum IV - Input is a BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/652/">
+          652. Find Duplicate Subtrees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/648/">
+          648. Replace Words
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/645/">
+          645. Set Mismatch
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/635/">
+          635. Design Log Storage System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/632/">
+          632. Smallest Range Covering Elements from K Lists
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/631/">
+          631. Design Excel Sum Formula
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/621/">
+          621. Task Scheduler
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/616/">
+          616. Add Bold Tag in String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/609/">
+          609. Find Duplicate File in System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/599/">
+          599. Minimum Index Sum of Two Lists
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/594/">
+          594. Longest Harmonious Subsequence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/588/">
+          588. Design In-Memory File System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/582/">
+          582. Kill Process
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/575/">
+          575. Distribute Candies
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/567/">
+          567. Permutation in String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/560/">
+          560. Subarray Sum Equals K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/554/">
+          554. Brick Wall
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/548/">
+          548. Split Array with Equal Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/535/">
+          535. Encode and Decode TinyURL
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/533/">
+          533. Lonely Pixel II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/532/">
+          532. K-diff Pairs in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/531/">
+          531. Lonely Pixel I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/525/">
+          525. Contiguous Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/523/">
+          523. Continuous Subarray Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/522/">
+          522. Longest Uncommon Subsequence II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/519/">
+          519. Random Flip Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/508/">
+          508. Most Frequent Subtree Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/500/">
+          500. Keyboard Row
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/496/">
+          496. Next Greater Element I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/491/">
+          491. Non-decreasing Subsequences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/480/">
+          480. Sliding Window Median
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/460/">
+          460. LFU Cache
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/457/">
+          457. Circular Array Loop
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/454/">
+          454. 4Sum II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/451/">
+          451. Sort Characters By Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/448/">
+          448. Find All Numbers Disappeared in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/447/">
+          447. Number of Boomerangs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/442/">
+          442. Find All Duplicates in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/438/">
+          438. Find All Anagrams in a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/433/">
+          433. Minimum Genetic Mutation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/432/">
+          432. All O`one Data Structure
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/424/">
+          424. Longest Repeating Character Replacement
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/423/">
+          423. Reconstruct Original Digits from English
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/421/">
+          421. Maximum XOR of Two Numbers in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/409/">
+          409. Longest Palindrome
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/398/">
+          398. Random Pick Index
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/395/">
+          395. Longest Substring with At Least K Repeating Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/391/">
+          391. Perfect Rectangle
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/389/">
+          389. Find the Difference
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/387/">
+          387. First Unique Character in a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/383/">
+          383. Ransom Note
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/381/">
+          381. Insert Delete GetRandom O(1) - Duplicates allowed
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/380/">
+          380. Insert Delete GetRandom O(1)
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/379/">
+          379. Design Phone Directory
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/359/">
+          359. Logger Rate Limiter
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/358/">
+          358. Rearrange String k Distance Apart
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/356/">
+          356. Line Reflection
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/355/">
+          355. Design Twitter
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/353/">
+          353. Design Snake Game
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/350/">
+          350. Intersection of Two Arrays II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/349/">
+          349. Intersection of Two Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/348/">
+          348. Design Tic-Tac-Toe
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/347/">
+          347. Top K Frequent Elements
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/340/">
+          340. Longest Substring with At Most K Distinct Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/336/">
+          336. Palindrome Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/325/">
+          325. Maximum Size Subarray Sum Equals k
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/314/">
+          314. Binary Tree Vertical Order Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/311/">
+          311. Sparse Matrix Multiplication
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/305/">
+          305. Number of Islands II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/299/">
+          299. Bulls and Cows
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/291/">
+          291. Word Pattern II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/290/">
+          290. Word Pattern
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/288/">
+          288. Unique Word Abbreviation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/268/">
+          268. Missing Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/267/">
+          267. Palindrome Permutation II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/266/">
+          266. Palindrome Permutation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/264/">
+          264. Ugly Number II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/249/">
+          249. Group Shifted Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/246/">
+          246. Strobogrammatic Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/244/">
+          244. Shortest Word Distance II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/242/">
+          242. Valid Anagram
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/229/">
+          229. Majority Element II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/219/">
+          219. Contains Duplicate II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/217/">
+          217. Contains Duplicate
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/208/">
+          208. Implement Trie (Prefix Tree)
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/205/">
+          205. Isomorphic Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/202/">
+          202. Happy Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/187/">
+          187. Repeated DNA Sequences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/170/">
+          170. Two Sum III - Data structure design
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/169/">
+          169. Majority Element
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/166/">
+          166. Fraction to Recurring Decimal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/160/">
+          160. Intersection of Two Linked Lists
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/159/">
+          159. Longest Substring with At Most Two Distinct Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/149/">
+          149. Max Points on a Line
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/146/">
+          146. LRU Cache
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/142/">
+          142. Linked List Cycle II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/141/">
+          141. Linked List Cycle
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/140/">
+          140. Word Break II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/139/">
+          139. Word Break
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/138/">
+          138. Copy List with Random Pointer
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/133/">
+          133. Clone Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/128/">
+          128. Longest Consecutive Sequence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/127/">
+          127. Word Ladder
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/126/">
+          126. Word Ladder II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/106/">
+          106. Construct Binary Tree from Inorder and Postorder Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/105/">
+          105. Construct Binary Tree from Preorder and Inorder Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/76/">
+          76. Minimum Window Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/73/">
+          73. Set Matrix Zeroes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/49/">
+          49. Group Anagrams
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/41/">
+          41. First Missing Positive
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/37/">
+          37. Sudoku Solver
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/36/">
+          36. Valid Sudoku
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/30/">
+          30. Substring with Concatenation of All Words
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/17/">
+          17. Letter Combinations of a Phone Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/13/">
+          13. Roman to Integer
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/12/">
+          12. Integer to Roman
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3/">
+          3. Longest Substring Without Repeating Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1/">
+          1. Two Sum
+        </a>
+      </li>
+    
+    
+  </ul>
+
+
+
+  <h2 id="tag:ordered-set">
+
+
+<span class="md-tag">Ordered Set</span><a class="headerlink" href="#tag:ordered-set" title="Permanent link">&para;</a></h2>
+  <ul>
+    
+      <li>
+        <a href="../../../problems/3510/">
+          3510. Minimum Pair Removal to Sort Array II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3508/">
+          3508. Implement Router
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3507/">
+          3507. Minimum Pair Removal to Sort Array I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3479/">
+          3479. Fruits Into Baskets III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3477/">
+          3477. Fruits Into Baskets II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3408/">
+          3408. Design Task Manager
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3391/">
+          3391. Design a 3D Binary Matrix with Efficient Layer Tracking
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3369/">
+          3369. Design an Array Statistics Tracker 
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3244/">
+          3244. Shortest Distance After Road Addition Queries II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3109/">
+          3109. Find the Index of Permutation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3102/">
+          3102. Minimize Manhattan Distances
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3092/">
+          3092. Most Frequent IDs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3073/">
+          3073. Maximum Increasing Triplet Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2817/">
+          2817. Minimum Absolute Difference Between Elements With Constraint
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2763/">
+          2763. Sum of Imbalance Numbers of All Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2762/">
+          2762. Continuous Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2713/">
+          2713. Maximum Strictly Increasing Cells in a Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2659/">
+          2659. Make Array Empty
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2613/">
+          2613. Beautiful Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2612/">
+          2612. Minimum Reverse Operations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2519/">
+          2519. Count the Number of K-Big Indices
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2426/">
+          2426. Number of Pairs Satisfying Inequality
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2424/">
+          2424. Longest Uploaded Prefix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2382/">
+          2382. Maximum Segment Sum After Removals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2363/">
+          2363. Merge Similar Items
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2353/">
+          2353. Design a Food Rating System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2349/">
+          2349. Design a Number Container System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2336/">
+          2336. Smallest Number in Infinite Set
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2276/">
+          2276. Count Integers in Intervals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2254/">
+          2254. Design Video Sharing Platform
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2251/">
+          2251. Number of Flowers in Full Bloom
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2213/">
+          2213. Longest Substring of One Repeating Character
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2179/">
+          2179. Count Good Triplets in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2158/">
+          2158. Amount of New Area Painted Each Day
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2102/">
+          2102. Sequentially Ordinal Rank Tracker
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2035/">
+          2035. Partition Array Into Two Arrays to Minimize Sum Difference
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2034/">
+          2034. Stock Price Fluctuation 
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2031/">
+          2031. Count Subarrays With More Ones Than Zeros
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2021/">
+          2021. Brightest Position on Street
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1912/">
+          1912. Design Movie Rental System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1902/">
+          1902. Depth of BST Given Insertion Order
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1847/">
+          1847. Closest Room
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1825/">
+          1825. Finding MK Average
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1818/">
+          1818. Minimum Absolute Sum Difference
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1756/">
+          1756. Design Most Recently Used Queue
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1675/">
+          1675. Minimize Deviation in Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1649/">
+          1649. Create Sorted Array through Instructions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1606/">
+          1606. Find Servers That Handled Most Number of Requests
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1438/">
+          1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1418/">
+          1418. Display Table of Food Orders in a Restaurant
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1348/">
+          1348. Tweet Counts Per Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/975/">
+          975. Odd Even Jump
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/895/">
+          895. Maximum Frequency Stack
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/855/">
+          855. Exam Room
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/850/">
+          850. Rectangle Area II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/732/">
+          732. My Calendar III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/731/">
+          731. My Calendar II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/729/">
+          729. My Calendar I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/716/">
+          716. Max Stack
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/715/">
+          715. Range Module
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/699/">
+          699. Falling Squares
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/683/">
+          683. K Empty Slots
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/635/">
+          635. Design Log Storage System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/497/">
+          497. Random Point in Non-overlapping Rectangles
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/493/">
+          493. Reverse Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/456/">
+          456. 132 Pattern
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/363/">
+          363. Max Sum of Rectangle No Larger Than K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/352/">
+          352. Data Stream as Disjoint Intervals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/327/">
+          327. Count of Range Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/315/">
+          315. Count of Smaller Numbers After Self
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/220/">
+          220. Contains Duplicate III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/218/">
+          218. The Skyline Problem
+        </a>
+      </li>
+    
+    
+  </ul>
+
+
+
+  <h2 id="tag:rolling-hash">
+
+
+<span class="md-tag">Rolling Hash</span><a class="headerlink" href="#tag:rolling-hash" title="Permanent link">&para;</a></h2>
+  <ul>
+    
+      <li>
+        <a href="../../../problems/3529/">
+          3529. Count Cells in Overlapping Horizontal and Vertical Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3292/">
+          3292. Minimum Number of Valid Strings to Form Target II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3291/">
+          3291. Minimum Number of Valid Strings to Form Target I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3045/">
+          3045. Count Prefix and Suffix Pairs II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3042/">
+          3042. Count Prefix and Suffix Pairs I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3037/">
+          3037. Find Pattern in Infinite Stream II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3036/">
+          3036. Number of Subarrays That Match a Pattern II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3034/">
+          3034. Number of Subarrays That Match a Pattern I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3031/">
+          3031. Minimum Time to Revert Word to Initial State II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3029/">
+          3029. Minimum Time to Revert Word to Initial State I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3023/">
+          3023. Find Pattern in Infinite Stream I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3008/">
+          3008. Find Beautiful Indices in the Given Array II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3006/">
+          3006. Find Beautiful Indices in the Given Array I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2430/">
+          2430. Maximum Deletions on a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2261/">
+          2261. K Divisible Elements Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2223/">
+          2223. Sum of Scores of Built Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2168/">
+          2168. Unique Substrings With Equal Digit Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2156/">
+          2156. Find Substring With Given Hash Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1960/">
+          1960. Maximum Product of the Length of Two Palindromic Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1923/">
+          1923. Longest Common Subpath
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1698/">
+          1698. Number of Distinct Substrings in a String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1554/">
+          1554. Strings Differ by One Character
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1461/">
+          1461. Check If a String Contains All Binary Codes of Size K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1392/">
+          1392. Longest Happy Prefix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1316/">
+          1316. Distinct Echo Substrings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1147/">
+          1147. Longest Chunked Palindrome Decomposition
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1062/">
+          1062. Longest Repeating Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1044/">
+          1044. Longest Duplicate Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/718/">
+          718. Maximum Length of Repeated Subarray
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/214/">
+          214. Shortest Palindrome
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/187/">
+          187. Repeated DNA Sequences
+        </a>
+      </li>
+    
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve this page by using our feedback form.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../graph/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Graph">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Graph
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../stack-and-queue/" class="md-footer__link md-footer__link--next" aria-label="Next: Stack &amp; Queue">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Stack & Queue
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 - 2025 P.-Y. Chen
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/walkccc" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/pengyuc" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://walkccc.me/CLRS" target="_blank" rel="noopener" title="walkccc.me" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pokemontcgp.ai" target="_blank" rel="noopener" title="pokemontcgp.ai" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 1.4-.41 2.71-1.12 3.8L12 22.21 6.12 12.8A6.95 6.95 0 0 1 5 9a7 7 0 0 1 7-7m0 1.5A5.5 5.5 0 0 0 6.59 8h2.58c.41-1.17 1.52-2 2.83-2s2.42.83 2.83 2h2.58A5.5 5.5 0 0 0 12 3.5m0 8.5a2.99 2.99 0 0 1-2.83-2H6.59c.13.69.38 1.34.75 1.91l.04.09A5.51 5.51 0 0 0 12 14.5c1.94 0 3.64-1 4.62-2.5l.04-.09c.37-.57.62-1.22.75-1.91h-2.58A2.99 2.99 0 0 1 12 12m0-4.5A1.5 1.5 0 0 0 10.5 9a1.5 1.5 0 0 0 1.5 1.5A1.5 1.5 0 0 0 13.5 9 1.5 1.5 0 0 0 12 7.5"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:pengyuc.me@gmail.com" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.buymeacoffee.com/pengyuc" target="_blank" rel="noopener" title="Buy me a protein bar" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["header.autohide", "navigation.footer", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+        <script src="../../../js/adsense.js"></script>
+      
+        <script src="../../../js/katex.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,6892 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="LeetCode Solutions in C++23, Java, Python, MySQL, and TypeScript.">
+      
+      
+        <meta name="author" content="P.-Y. Chen">
+      
+      
+        <link rel="canonical" href="https://walkccc.me/LeetCode/topics/algorithms/search/">
+      
+      
+        <link rel="prev" href="../basic/">
+      
+      
+        <link rel="next" href="../sorting/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Search - LeetCode Solutions</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Lato";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/extra.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BCZ32RGHJ0"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BCZ32RGHJ0",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BCZ32RGHJ0",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tag:binary-search" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+             Tired of endless grinding? Check
+out
+<a href="https://algo.monster?fpr=pyc"
+  ><strong class="algo-monster">AlgoMonster</strong></a
+>
+for a structured approach to coding interviews. 
+          </div>
+          
+        </aside>
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LeetCode Solutions" class="md-header__button md-logo" aria-label="LeetCode Solutions" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M360.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6m64.6 136.1c-12.5 12.5-12.5 32.8 0 45.3l73.4 73.4-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0zm-274.7 0c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l73.3-73.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LeetCode Solutions
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Search
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-green"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search ('/' to focus)" placeholder="Search ('/' to focus)" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/walkccc/LeetCode" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    walkccc/LeetCode
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../styleguide/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Style Guide
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../data-structures/fundamental/" class="md-tabs__link">
+          
+  
+  
+  Topics
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../problems/1/" class="md-tabs__link">
+          
+  
+  
+  Problems
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LeetCode Solutions" class="md-nav__button md-logo" aria-label="LeetCode Solutions" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M360.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6m64.6 136.1c-12.5 12.5-12.5 32.8 0 45.3l73.4 73.4-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0zm-274.7 0c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l73.3-73.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
+
+    </a>
+    LeetCode Solutions
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/walkccc/LeetCode" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    walkccc/LeetCode
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+        
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+      
+    
+      
+      
+        
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../styleguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Style Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+      
+    
+      
+      
+        
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Topics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Topics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    I. Data Structures
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            I. Data Structures
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-structures/fundamental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fundamental
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-structures/tree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-structures/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Graph
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-structures/hashing-and-sets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hashing & Sets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-structures/stack-and-queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stack & Queue
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    II. Algorithms
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            II. Algorithms
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Search
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Search
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tag:binary-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      Binary Search
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag:breadth-first-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breadth-First Search
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag:depth-first-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      Depth-First Search
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sorting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sorting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recursion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Recursion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dynamic Programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mathematics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mathematics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    III. System Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            III. System Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Database
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Design
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/data-stream/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Stream
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/iterator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iterator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Concurrency
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system-design/shell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IV. Special Topics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            IV. Special Topics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/game-theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Game Theory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Interactive
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/simulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Simulation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/rolling-hash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Rolling Hash
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sampling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/randomized/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Randomized
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../special-topics/brainteaser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Brainteaser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+      
+    
+      
+      
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tag:binary-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      Binary Search
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag:breadth-first-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breadth-First Search
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag:depth-first-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      Depth-First Search
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Search</h1>
+
+
+
+  <h2 id="tag:binary-search">
+
+
+<span class="md-tag">Binary Search</span><a class="headerlink" href="#tag:binary-search" title="Permanent link">&para;</a></h2>
+  <ul>
+    
+      <li>
+        <a href="../../../problems/3534/">
+          3534. Path Existence Queries in a Graph II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3532/">
+          3532. Path Existence Queries in a Graph I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3520/">
+          3520. Minimum Threshold for Inversion Pairs Count
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3508/">
+          3508. Implement Router
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3501/">
+          3501. Maximize Active Section with Trade II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3488/">
+          3488. Closest Equal Element Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3479/">
+          3479. Fruits Into Baskets III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3477/">
+          3477. Fruits Into Baskets II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3464/">
+          3464. Maximize the Distance Between Points on a Square
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3455/">
+          3455. Shortest Matching Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3454/">
+          3454. Separate Squares II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3453/">
+          3453. Separate Squares I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3449/">
+          3449. Maximize the Minimum Game Score
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3419/">
+          3419. Minimize the Maximum Edge Weight of Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3414/">
+          3414. Maximum Score of Non-overlapping Intervals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3413/">
+          3413. Maximum Coins From K Consecutive Bags
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3399/">
+          3399. Smallest Substring With Identical Characters II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3398/">
+          3398. Smallest Substring With Identical Characters I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3369/">
+          3369. Design an Array Statistics Tracker 
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3357/">
+          3357. Minimize the Maximum Adjacent Element Difference
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3356/">
+          3356. Zero Array Transformation II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3350/">
+          3350. Adjacent Increasing Subarrays Detection II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3347/">
+          3347. Maximum Frequency of an Element After Performing Operations II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3346/">
+          3346. Maximum Frequency of an Element After Performing Operations I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3344/">
+          3344. Maximum Sized Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3323/">
+          3323. Minimize Connected Groups by Inserting Interval
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3312/">
+          3312. Sorted GCD Pair Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3296/">
+          3296. Minimum Number of Seconds to Make Mountain Height Zero
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3292/">
+          3292. Minimum Number of Valid Strings to Form Target II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3291/">
+          3291. Minimum Number of Valid Strings to Form Target I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3288/">
+          3288. Length of the Longest Increasing Path
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3281/">
+          3281. Maximize Score of Numbers in Ranges
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3261/">
+          3261. Count Substrings That Satisfy K-Constraint II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3231/">
+          3231. Minimum Number of Increasing Subsequence to Be Removed
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3209/">
+          3209. Number of Subarrays With AND Value of K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3186/">
+          3186. Maximum Total Damage With Spell Casting
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3171/">
+          3171. Find Subarray With Bitwise OR Closest to K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3161/">
+          3161. Block Placement Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3155/">
+          3155. Maximum Number of Upgradable Servers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3152/">
+          3152. Special Array II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3145/">
+          3145. Find Products of Elements of Big Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3143/">
+          3143. Maximum Points Inside the Square
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3135/">
+          3135. Equalize Strings by Adding or Removing Characters at Ends
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3134/">
+          3134. Find the Median of the Uniqueness Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3117/">
+          3117. Minimum Sum of Values by Dividing Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3116/">
+          3116. Kth Smallest Amount With Single Denomination Combination
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3113/">
+          3113. Find the Number of Subarrays Where Boundary Elements Are Maximum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3109/">
+          3109. Find the Index of Permutation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3104/">
+          3104. Find Longest Self-Contained Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3049/">
+          3049. Earliest Second to Mark Indices II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3048/">
+          3048. Earliest Second to Mark Indices I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3008/">
+          3008. Find Beautiful Indices in the Given Array II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3007/">
+          3007. Maximum Number That Sum of the Prices Is Less Than or Equal to K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3006/">
+          3006. Find Beautiful Indices in the Given Array I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2982/">
+          2982. Find Longest Special Substring That Occurs Thrice II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2981/">
+          2981. Find Longest Special Substring That Occurs Thrice I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2972/">
+          2972. Count the Number of Incremovable Subarrays II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2970/">
+          2970. Count the Number of Incremovable Subarrays I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2968/">
+          2968. Apply Operations to Maximize Frequency Score
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2967/">
+          2967. Minimum Cost to Make Array Equalindromic
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2945/">
+          2945. Find Maximum Non-decreasing Array Length
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2941/">
+          2941. Maximum GCD-Sum of a Subarray
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2940/">
+          2940. Find Building Where Alice and Bob Can Meet
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2936/">
+          2936. Number of Equal Numbers Blocks
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2926/">
+          2926. Maximum Balanced Subsequence Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2861/">
+          2861. Maximum Number of Alloys
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2856/">
+          2856. Minimum Array Length After Pair Removals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2838/">
+          2838. Maximum Coins Heroes Can Collect
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2831/">
+          2831. Find the Longest Equal Subarray
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2830/">
+          2830. Maximize the Profit as the Salesman
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2826/">
+          2826. Sorting Three Groups
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2824/">
+          2824. Count Pairs Whose Sum is Less than Target
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2819/">
+          2819. Minimum Relative Loss After Buying Chocolates
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2817/">
+          2817. Minimum Absolute Difference Between Elements With Constraint
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2812/">
+          2812. Find the Safest Path in a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2790/">
+          2790. Maximum Number of Groups With Increasing Length
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2779/">
+          2779. Maximum Beauty of an Array After Applying Operation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2736/">
+          2736. Maximum Sum Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2713/">
+          2713. Maximum Strictly Increasing Cells in a Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2702/">
+          2702. Minimum Operations to Make Numbers Non-positive
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2659/">
+          2659. Make Array Empty
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2616/">
+          2616. Minimize the Maximum Difference of Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2604/">
+          2604. Minimum Time to Eat All Grains
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2602/">
+          2602. Minimum Operations to Make All Array Elements Equal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2601/">
+          2601. Prime Subtraction Operation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2594/">
+          2594. Minimum Time to Repair Cars
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2589/">
+          2589. Minimum Time to Complete All Tasks
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2576/">
+          2576. Find the Maximum Number of Marked Indices
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2565/">
+          2565. Subsequence With the Minimum Score
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2563/">
+          2563. Count the Number of Fair Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2560/">
+          2560. House Robber IV
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2557/">
+          2557. Maximum Number of Integers to Choose From a Range II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2555/">
+          2555. Maximize Win From Two Segments
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2554/">
+          2554. Maximum Number of Integers to Choose From a Range I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2540/">
+          2540. Minimum Common Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2529/">
+          2529. Maximum Count of Positive Integer and Negative Integer
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2528/">
+          2528. Maximize the Minimum Powered City
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2519/">
+          2519. Count the Number of K-Big Indices
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2517/">
+          2517. Maximum Tastiness of Candy Basket
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2513/">
+          2513. Minimize the Maximum of Two Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2501/">
+          2501. Longest Square Streak in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2498/">
+          2498. Frog Jump II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2476/">
+          2476. Closest Nodes Queries in a Binary Search Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2468/">
+          2468. Split Message Based on Limit
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2454/">
+          2454. Next Greater Element IV
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2448/">
+          2448. Minimum Cost to Make Array Equal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2439/">
+          2439. Minimize Maximum of Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2426/">
+          2426. Number of Pairs Satisfying Inequality
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2424/">
+          2424. Longest Uploaded Prefix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2411/">
+          2411. Smallest Subarrays With Maximum Bitwise OR
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2398/">
+          2398. Maximum Number of Robots Within Budget
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2389/">
+          2389. Longest Subsequence With Limited Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2387/">
+          2387. Median of a Row Wise Sorted Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2358/">
+          2358. Maximum Number of Groups Entering a Competition
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2354/">
+          2354. Number of Excellent Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2333/">
+          2333. Minimum Sum of Squared Difference
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2332/">
+          2332. The Latest Time to Catch a Bus
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2302/">
+          2302. Count Subarrays With Score Less Than K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2300/">
+          2300. Successful Pairs of Spells and Potions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2286/">
+          2286. Booking Concert Tickets in Groups
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2271/">
+          2271. Maximum White Tiles Covered by a Carpet
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2258/">
+          2258. Escape the Spreading Fire
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2251/">
+          2251. Number of Flowers in Full Bloom
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2250/">
+          2250. Count Number of Rectangles Containing Each Point
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2234/">
+          2234. Maximum Total Beauty of the Gardens
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2226/">
+          2226. Maximum Candies Allocated to K Children
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2223/">
+          2223. Sum of Scores of Built Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2187/">
+          2187. Minimum Time to Complete Trips
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2179/">
+          2179. Count Good Triplets in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2141/">
+          2141. Maximum Running Time of N Computers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2137/">
+          2137. Pour Water Between Buckets to Make Water Levels Equal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2111/">
+          2111. Minimum Operations to Make the Array K-Increasing
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2106/">
+          2106. Maximum Fruits Harvested After at Most K Steps
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2089/">
+          2089. Find Target Indices After Sorting Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2080/">
+          2080. Range Frequency Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2071/">
+          2071. Maximum Number of Tasks You Can Assign
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2070/">
+          2070. Most Beautiful Item for Each Query
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2064/">
+          2064. Minimized Maximum of Products Distributed to Any Store
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2055/">
+          2055. Plates Between Candles
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2054/">
+          2054. Two Best Non-Overlapping Events
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2040/">
+          2040. Kth Smallest Product of Two Sorted Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2035/">
+          2035. Partition Array Into Two Arrays to Minimize Sum Difference
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2031/">
+          2031. Count Subarrays With More Ones Than Zeros
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2024/">
+          2024. Maximize the Confusion of an Exam
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2009/">
+          2009. Minimum Number of Operations to Make Array Continuous
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2008/">
+          2008. Maximum Earnings From Taxi
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1970/">
+          1970. Last Day Where You Can Still Cross
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1966/">
+          1966. Binary Searchable Numbers in an Unsorted Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1964/">
+          1964. Find the Longest Valid Obstacle Course at Each Position
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1956/">
+          1956. Minimum Time For K Virus Variants to Spread
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1954/">
+          1954. Minimum Garden Perimeter to Collect Enough Apples
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1932/">
+          1932. Merge BSTs to Create Single BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1923/">
+          1923. Longest Common Subpath
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1918/">
+          1918. Kth Smallest Subarray Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1901/">
+          1901. Find a Peak Element II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1898/">
+          1898. Maximum Number of Removable Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1894/">
+          1894. Find the Student that Will Replace the Chalk
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1891/">
+          1891. Cutting Ribbons
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1889/">
+          1889. Minimum Space Wasted From Packaging
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1885/">
+          1885. Count Pairs in Two Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1870/">
+          1870. Minimum Speed to Arrive on Time
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1862/">
+          1862. Sum of Floored Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1855/">
+          1855. Maximum Distance Between a Pair of Values
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1851/">
+          1851. Minimum Interval to Include Each Query
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1847/">
+          1847. Closest Room
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1838/">
+          1838. Frequency of the Most Frequent Element
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1818/">
+          1818. Minimum Absolute Sum Difference
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1802/">
+          1802. Maximum Value at a Given Index in a Bounded Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1793/">
+          1793. Maximum Score of a Good Subarray
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1782/">
+          1782. Count Pairs Of Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1760/">
+          1760. Minimum Limit of Balls in a Bag
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1751/">
+          1751. Maximum Number of Events That Can Be Attended II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1739/">
+          1739. Building Boxes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1713/">
+          1713. Minimum Operations to Make a Subsequence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1712/">
+          1712. Ways to Split Array Into Three Subarrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1671/">
+          1671. Minimum Number of Removals to Make Mountain Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1658/">
+          1658. Minimum Operations to Reduce X to Zero
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1649/">
+          1649. Create Sorted Array through Instructions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1648/">
+          1648. Sell Diminishing-Valued Colored Balls
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1631/">
+          1631. Path With Minimum Effort
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1618/">
+          1618. Maximum Font to Fit a Sentence in a Screen
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1608/">
+          1608. Special Array With X Elements Greater Than or Equal X
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1574/">
+          1574. Shortest Subarray to be Removed to Make Array Sorted
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1562/">
+          1562. Find Latest Group of Size M
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1552/">
+          1552. Magnetic Force Between Two Balls
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1539/">
+          1539. Kth Missing Positive Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1533/">
+          1533. Find the Index of the Large Integer
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1521/">
+          1521. Find a Value of a Mysterious Function Closest to Target
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1508/">
+          1508. Range Sum of Sorted Subarray Sums
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1498/">
+          1498. Number of Subsequences That Satisfy the Given Sum Condition
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1488/">
+          1488. Avoid Flood in The City
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1483/">
+          1483. Kth Ancestor of a Tree Node
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1482/">
+          1482. Minimum Number of Days to Make m Bouquets
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1477/">
+          1477. Find Two Non-overlapping Sub-arrays Each With Target Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1439/">
+          1439. Find the Kth Smallest Sum of a Matrix With Sorted Rows
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1428/">
+          1428. Leftmost Column with at Least a One
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1385/">
+          1385. Find the Distance Value Between Two Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1351/">
+          1351. Count Negative Numbers in a Sorted Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1348/">
+          1348. Tweet Counts Per Frequency
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1346/">
+          1346. Check If N and Its Double Exist
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1337/">
+          1337. The K Weakest Rows in a Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1300/">
+          1300. Sum of Mutated Array Closest to Target
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1292/">
+          1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1283/">
+          1283. Find the Smallest Divisor Given a Threshold
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1268/">
+          1268. Search Suggestions System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1237/">
+          1237. Find Positive Integer Solution for a Given Equation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1235/">
+          1235. Maximum Profit in Job Scheduling
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1231/">
+          1231. Divide Chocolate
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1214/">
+          1214. Two Sum BSTs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1213/">
+          1213. Intersection of Three Sorted Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1208/">
+          1208. Get Equal Substrings Within Budget
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1201/">
+          1201. Ugly Number III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1198/">
+          1198. Find Smallest Common Element in All Rows
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1187/">
+          1187. Make Array Strictly Increasing
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1182/">
+          1182. Shortest Distance to Target Color
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1170/">
+          1170. Compare Strings by Frequency of the Smallest Character
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1157/">
+          1157. Online Majority Element In Subarray
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1150/">
+          1150. Check If a Number Is Majority Element in a Sorted Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1146/">
+          1146. Snapshot Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1102/">
+          1102. Path With Maximum Minimum Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1099/">
+          1099. Two Sum Less Than K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1095/">
+          1095. Find in Mountain Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1064/">
+          1064. Fixed Point
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1062/">
+          1062. Longest Repeating Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1060/">
+          1060. Missing Element in Sorted Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1055/">
+          1055. Shortest Way to Form String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1044/">
+          1044. Longest Duplicate Substring
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1027/">
+          1027. Longest Arithmetic Subsequence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1011/">
+          1011. Capacity To Ship Packages Within D Days
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1004/">
+          1004. Max Consecutive Ones III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/981/">
+          981. Time Based Key-Value Store
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/911/">
+          911. Online Election
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/902/">
+          902. Numbers At Most N Given Digit Set
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/888/">
+          888. Fair Candy Swap
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/887/">
+          887. Super Egg Drop
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/878/">
+          878. Nth Magical Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/875/">
+          875. Koko Eating Bananas
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/862/">
+          862. Shortest Subarray with Sum at Least K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/852/">
+          852. Peak Index in a Mountain Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/826/">
+          826. Most Profit Assigning Work
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/825/">
+          825. Friends Of Appropriate Ages
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/793/">
+          793. Preimage Size of Factorial Zeroes Function
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/792/">
+          792. Number of Matching Subsequences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/786/">
+          786. K-th Smallest Prime Fraction
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/778/">
+          778. Swim in Rising Water
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/774/">
+          774. Minimize Max Distance to Gas Station
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/754/">
+          754. Reach a Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/744/">
+          744. Find Smallest Letter Greater Than Target
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/732/">
+          732. My Calendar III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/731/">
+          731. My Calendar II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/729/">
+          729. My Calendar I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/719/">
+          719. Find K-th Smallest Pair Distance
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/718/">
+          718. Maximum Length of Repeated Subarray
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/713/">
+          713. Subarray Product Less Than K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/710/">
+          710. Random Pick with Blacklist
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/704/">
+          704. Binary Search
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/702/">
+          702. Search in a Sorted Array of Unknown Size
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/668/">
+          668. Kth Smallest Number in Multiplication Table
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/658/">
+          658. Find K Closest Elements
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/644/">
+          644. Maximum Average Subarray II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/633/">
+          633. Sum of Square Numbers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/611/">
+          611. Valid Triangle Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/540/">
+          540. Single Element in a Sorted Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/532/">
+          532. K-diff Pairs in an Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/497/">
+          497. Random Point in Non-overlapping Rectangles
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/493/">
+          493. Reverse Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/483/">
+          483. Smallest Good Base
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/475/">
+          475. Heaters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/456/">
+          456. 132 Pattern
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/441/">
+          441. Arranging Coins
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/436/">
+          436. Find Right Interval
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/410/">
+          410. Split Array Largest Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/400/">
+          400. Nth Digit
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/378/">
+          378. Kth Smallest Element in a Sorted Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/374/">
+          374. Guess Number Higher or Lower
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/367/">
+          367. Valid Perfect Square
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/363/">
+          363. Max Sum of Rectangle No Larger Than K
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/362/">
+          362. Design Hit Counter
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/354/">
+          354. Russian Doll Envelopes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/352/">
+          352. Data Stream as Disjoint Intervals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/350/">
+          350. Intersection of Two Arrays II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/349/">
+          349. Intersection of Two Arrays
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/327/">
+          327. Count of Range Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/315/">
+          315. Count of Smaller Numbers After Self
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/302/">
+          302. Smallest Rectangle Enclosing Black Pixels
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/300/">
+          300. Longest Increasing Subsequence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/287/">
+          287. Find the Duplicate Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/278/">
+          278. First Bad Version
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/275/">
+          275. H-Index II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/270/">
+          270. Closest Binary Search Tree Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/268/">
+          268. Missing Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/259/">
+          259. 3Sum Smaller
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/240/">
+          240. Search a 2D Matrix II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/222/">
+          222. Count Complete Tree Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/209/">
+          209. Minimum Size Subarray Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/167/">
+          167. Two Sum II - Input Array Is Sorted
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/162/">
+          162. Find Peak Element
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/154/">
+          154. Find Minimum in Rotated Sorted Array II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/153/">
+          153. Find Minimum in Rotated Sorted Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/81/">
+          81. Search in Rotated Sorted Array II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/74/">
+          74. Search a 2D Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/69/">
+          69. Sqrt(x)
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/35/">
+          35. Search Insert Position
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/34/">
+          34. Find First and Last Position of Element in Sorted Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/33/">
+          33. Search in Rotated Sorted Array
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/4/">
+          4. Median of Two Sorted Arrays
+        </a>
+      </li>
+    
+    
+  </ul>
+
+
+
+  <h2 id="tag:breadth-first-search">
+
+
+<span class="md-tag">Breadth-First Search</span><a class="headerlink" href="#tag:breadth-first-search" title="Permanent link">&para;</a></h2>
+  <ul>
+    
+      <li>
+        <a href="../../../problems/3552/">
+          3552. Grid Teleportation Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3535/">
+          3535. Unit Conversion II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3528/">
+          3528. Unit Conversion I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3493/">
+          3493. Properties Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3481/">
+          3481. Apply Substitutions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3419/">
+          3419. Minimize the Maximum Edge Weight of Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3387/">
+          3387. Maximize Amount After Two Days of Conversions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3383/">
+          3383. Minimum Runes to Add to Cast Spell
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3373/">
+          3373. Maximize the Number of Target Nodes After Connecting Trees II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3372/">
+          3372. Maximize the Number of Target Nodes After Connecting Trees I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3310/">
+          3310. Remove Methods From Project
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3286/">
+          3286. Find a Safe Walk Through a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3283/">
+          3283. Maximum Number of Moves to Kill All Pawns
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3243/">
+          3243. Shortest Distance After Road Addition Queries I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3235/">
+          3235. Check if the Rectangle Corner Is Reachable
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3203/">
+          3203. Find Minimum Diameter After Merging Two Trees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3157/">
+          3157. Find the Level of Tree with Minimum Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3141/">
+          3141. Maximum Hamming Distances
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3123/">
+          3123. Find Edges in Shortest Paths
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3015/">
+          3015. Count the Number of Houses at a Certain Distance I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2998/">
+          2998. Minimum Number of Operations to Make X and Y Equal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2858/">
+          2858. Minimum Edge Reversals So Every Node Is Reachable
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2852/">
+          2852. Sum of Remoteness of All Cells
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2850/">
+          2850. Minimum Moves to Spread Stones Over Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2814/">
+          2814. Minimum Time Takes to Reach Destination Without Drowning
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2812/">
+          2812. Find the Safest Path in a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2773/">
+          2773. Height of Special Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2685/">
+          2685. Count the Number of Complete Components
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2658/">
+          2658. Maximum Number of Fish in a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2641/">
+          2641. Cousins in Binary Tree II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2617/">
+          2617. Minimum Number of Visited Cells in a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2612/">
+          2612. Minimum Reverse Operations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2608/">
+          2608. Shortest Cycle in a Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2596/">
+          2596. Check Knight Tour Configuration
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2583/">
+          2583. Kth Largest Sum in a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2577/">
+          2577. Minimum Time to Visit a Cell In a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2556/">
+          2556. Disconnect Path in a Binary Matrix by at Most One Flip
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2503/">
+          2503. Maximum Number of Points From Grid Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2493/">
+          2493. Divide Nodes Into the Maximum Number of Groups
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2492/">
+          2492. Minimum Score of a Path Between Two Cities
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2477/">
+          2477. Minimum Fuel Cost to Report to the Capital
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2471/">
+          2471. Minimum Number of Operations to Sort a Binary Tree by Level
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2467/">
+          2467. Most Profitable Path in a Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2458/">
+          2458. Height of Binary Tree After Subtree Removal Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2445/">
+          2445. Number of Nodes With Value One
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2415/">
+          2415. Reverse Odd Levels of Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2385/">
+          2385. Amount of Time for Binary Tree to Be Infected
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2368/">
+          2368. Reachable Nodes With Restrictions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2360/">
+          2360. Longest Cycle in a Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2328/">
+          2328. Number of Increasing Paths in a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2316/">
+          2316. Count Unreachable Pairs of Nodes in an Undirected Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2290/">
+          2290. Minimum Obstacle Removal to Reach Corner
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2277/">
+          2277. Closest Node to Path in Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2258/">
+          2258. Escape the Spreading Fire
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2204/">
+          2204. Distance to a Cycle in Undirected Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2192/">
+          2192. All Ancestors of a Node in a Directed Acyclic Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2174/">
+          2174. Remove All Ones With Row and Column Flips II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2146/">
+          2146. K Highest Ranked Items Within a Price Range
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2101/">
+          2101. Detonate the Maximum Bombs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2092/">
+          2092. Find All People With Secret
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2059/">
+          2059. Minimum Operations to Convert Number
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2045/">
+          2045. Second Minimum Time to Reach Destination
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2039/">
+          2039. The Time When the Network Becomes Idle
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1993/">
+          1993. Operations on Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1992/">
+          1992. Find All Groups of Farmland
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1971/">
+          1971. Find if Path Exists in Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1970/">
+          1970. Last Day Where You Can Still Cross
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1926/">
+          1926. Nearest Exit from Entrance in Maze
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1905/">
+          1905. Count Sub Islands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1810/">
+          1810. Minimum Path Cost in a Hidden Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1778/">
+          1778. Shortest Path in a Hidden Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1765/">
+          1765. Map of Highest Peak
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1740/">
+          1740. Find Distance in a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1730/">
+          1730. Shortest Path to Get Food
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1660/">
+          1660. Correct a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1654/">
+          1654. Minimum Jumps to Reach Home
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1631/">
+          1631. Path With Minimum Effort
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1625/">
+          1625. Lexicographically Smallest String After Applying Operations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1609/">
+          1609. Even Odd Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1602/">
+          1602. Find Nearest Right Node in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1568/">
+          1568. Minimum Number of Days to Disconnect Island
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1559/">
+          1559. Detect Cycles in 2D Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1519/">
+          1519. Number of Nodes in the Sub-Tree With the Same Label
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1490/">
+          1490. Clone N-ary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1485/">
+          1485. Clone Binary Tree With Random Pointer
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1483/">
+          1483. Kth Ancestor of a Tree Node
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1469/">
+          1469. Find All The Lonely Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1466/">
+          1466. Reorder Routes to Make All Paths Lead to the City Zero
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1462/">
+          1462. Course Schedule IV
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1457/">
+          1457. Pseudo-Palindromic Paths in a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1448/">
+          1448. Count Good Nodes in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1443/">
+          1443. Minimum Time to Collect All Apples in a Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1430/">
+          1430. Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1391/">
+          1391. Check if There is a Valid Path in a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1379/">
+          1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1377/">
+          1377. Frog Position After T Seconds
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1376/">
+          1376. Time Needed to Inform All Employees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1368/">
+          1368. Minimum Cost to Make at Least One Valid Path in a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1361/">
+          1361. Validate Binary Tree Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1345/">
+          1345. Jump Game IV
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1319/">
+          1319. Number of Operations to Make Network Connected
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1315/">
+          1315. Sum of Nodes with Even-Valued Grandparent
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1311/">
+          1311. Get Watched Videos by Your Friends
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1306/">
+          1306. Jump Game III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1302/">
+          1302. Deepest Leaves Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1298/">
+          1298. Maximum Candies You Can Get from Boxes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1293/">
+          1293. Shortest Path in a Grid with Obstacles Elimination
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1284/">
+          1284. Minimum Number of Flips to Convert Binary Matrix to Zero Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1273/">
+          1273. Delete Tree Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1267/">
+          1267. Count Servers that Communicate
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1263/">
+          1263. Minimum Moves to Move a Box to Their Target Location
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1261/">
+          1261. Find Elements in a Contaminated Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1257/">
+          1257. Smallest Common Region
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1254/">
+          1254. Number of Closed Islands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1245/">
+          1245. Tree Diameter
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1242/">
+          1242. Web Crawler Multithreaded
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1236/">
+          1236. Web Crawler
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1215/">
+          1215. Stepping Numbers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1210/">
+          1210. Minimum Moves to Reach Target with Rotations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1203/">
+          1203. Sort Items by Groups Respecting Dependencies
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1202/">
+          1202. Smallest String With Swaps
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1197/">
+          1197. Minimum Knight Moves
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1162/">
+          1162. As Far from Land as Possible
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1161/">
+          1161. Maximum Level Sum of a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1129/">
+          1129. Shortest Path with Alternating Colors
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1123/">
+          1123. Lowest Common Ancestor of Deepest Leaves
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1102/">
+          1102. Path With Maximum Minimum Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1096/">
+          1096. Brace Expansion II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1091/">
+          1091. Shortest Path in Binary Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1087/">
+          1087. Brace Expansion
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1042/">
+          1042. Flower Planting With No Adjacent
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1036/">
+          1036. Escape a Large Maze
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1034/">
+          1034. Coloring A Border
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1020/">
+          1020. Number of Enclaves
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/994/">
+          994. Rotting Oranges
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/993/">
+          993. Cousins in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/987/">
+          987. Vertical Order Traversal of a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/967/">
+          967. Numbers With Same Consecutive Differences
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/965/">
+          965. Univalued Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/959/">
+          959. Regions Cut By Slashes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/958/">
+          958. Check Completeness of a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/934/">
+          934. Shortest Bridge
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/928/">
+          928. Minimize Malware Spread II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/924/">
+          924. Minimize Malware Spread
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/919/">
+          919. Complete Binary Tree Inserter
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/909/">
+          909. Snakes and Ladders
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/886/">
+          886. Possible Bipartition
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/865/">
+          865. Smallest Subtree with all the Deepest Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/864/">
+          864. Shortest Path to Get All Keys
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/863/">
+          863. All Nodes Distance K in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/854/">
+          854. K-Similar Strings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/847/">
+          847. Shortest Path Visiting All Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/841/">
+          841. Keys and Rooms
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/839/">
+          839. Similar String Groups
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/827/">
+          827. Making A Large Island
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/815/">
+          815. Bus Routes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/802/">
+          802. Find Eventual Safe States
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/797/">
+          797. All Paths From Source to Target
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/787/">
+          787. Cheapest Flights Within K Stops
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/785/">
+          785. Is Graph Bipartite?
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/783/">
+          783. Minimum Distance Between BST Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/778/">
+          778. Swim in Rising Water
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/773/">
+          773. Sliding Puzzle
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/765/">
+          765. Couples Holding Hands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/756/">
+          756. Pyramid Transition Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/752/">
+          752. Open the Lock
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/749/">
+          749. Contain Virus
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/743/">
+          743. Network Delay Time
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/742/">
+          742. Closest Leaf in a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/737/">
+          737. Sentence Similarity II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/733/">
+          733. Flood Fill
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/721/">
+          721. Accounts Merge
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/711/">
+          711. Number of Distinct Islands II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/695/">
+          695. Max Area of Island
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/694/">
+          694. Number of Distinct Islands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/690/">
+          690. Employee Importance
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/685/">
+          685. Redundant Connection II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/684/">
+          684. Redundant Connection
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/675/">
+          675. Cut Off Trees for Golf Event
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/672/">
+          672. Bulb Switcher II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/662/">
+          662. Maximum Width of Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/655/">
+          655. Print Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/653/">
+          653. Two Sum IV - Input is a BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/637/">
+          637. Average of Levels in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/623/">
+          623. Add One Row to Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/617/">
+          617. Merge Two Binary Trees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/582/">
+          582. Kill Process
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/559/">
+          559. Maximum Depth of N-ary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/547/">
+          547. Number of Provinces
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/542/">
+          542. 01 Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/530/">
+          530. Minimum Absolute Difference in BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/529/">
+          529. Minesweeper
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/515/">
+          515. Find Largest Value in Each Tree Row
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/514/">
+          514. Freedom Trail
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/513/">
+          513. Find Bottom Left Tree Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/505/">
+          505. The Maze II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/499/">
+          499. The Maze III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/490/">
+          490. The Maze
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/488/">
+          488. Zuma Game
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/463/">
+          463. Island Perimeter
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/449/">
+          449. Serialize and Deserialize BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/433/">
+          433. Minimum Genetic Mutation
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/431/">
+          431. Encode N-ary Tree to Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/429/">
+          429. N-ary Tree Level Order Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/428/">
+          428. Serialize and Deserialize N-ary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/417/">
+          417. Pacific Atlantic Water Flow
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/407/">
+          407. Trapping Rain Water II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/404/">
+          404. Sum of Left Leaves
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/399/">
+          399. Evaluate Division
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/365/">
+          365. Water and Jug Problem
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/364/">
+          364. Nested List Weight Sum II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/339/">
+          339. Nested List Weight Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/329/">
+          329. Longest Increasing Path in a Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/323/">
+          323. Number of Connected Components in an Undirected Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/322/">
+          322. Coin Change
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/317/">
+          317. Shortest Distance from All Buildings
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/314/">
+          314. Binary Tree Vertical Order Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/310/">
+          310. Minimum Height Trees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/302/">
+          302. Smallest Rectangle Enclosing Black Pixels
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/301/">
+          301. Remove Invalid Parentheses
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/297/">
+          297. Serialize and Deserialize Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/286/">
+          286. Walls and Gates
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/279/">
+          279. Perfect Squares
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/269/">
+          269. Alien Dictionary
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/261/">
+          261. Graph Valid Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/226/">
+          226. Invert Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/210/">
+          210. Course Schedule II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/207/">
+          207. Course Schedule
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/200/">
+          200. Number of Islands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/199/">
+          199. Binary Tree Right Side View
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/133/">
+          133. Clone Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/130/">
+          130. Surrounded Regions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/127/">
+          127. Word Ladder
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/126/">
+          126. Word Ladder II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/117/">
+          117. Populating Next Right Pointers in Each Node II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/116/">
+          116. Populating Next Right Pointers in Each Node
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/112/">
+          112. Path Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/111/">
+          111. Minimum Depth of Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/107/">
+          107. Binary Tree Level Order Traversal II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/104/">
+          104. Maximum Depth of Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/103/">
+          103. Binary Tree Zigzag Level Order Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/102/">
+          102. Binary Tree Level Order Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/101/">
+          101. Symmetric Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/100/">
+          100. Same Tree
+        </a>
+      </li>
+    
+    
+  </ul>
+
+
+
+  <h2 id="tag:depth-first-search">
+
+
+<span class="md-tag">Depth-First Search</span><a class="headerlink" href="#tag:depth-first-search" title="Permanent link">&para;</a></h2>
+  <ul>
+    
+      <li>
+        <a href="../../../problems/3562/">
+          3562. Maximum Profit from Trading Stocks with Discounts
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3559/">
+          3559. Number of Ways to Assign Edge Weights II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3558/">
+          3558. Number of Ways to Assign Edge Weights I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3553/">
+          3553. Minimum Weighted Subgraph With the Required Paths II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3547/">
+          3547. Maximum Sum of Edge Values in a Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3544/">
+          3544. Subtree Inversion Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3535/">
+          3535. Unit Conversion II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3528/">
+          3528. Unit Conversion I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3515/">
+          3515. Shortest Path in a Weighted Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3493/">
+          3493. Properties Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3486/">
+          3486. Longest Special Path II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3481/">
+          3481. Apply Substitutions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3425/">
+          3425. Longest Special Path
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3419/">
+          3419. Minimize the Maximum Edge Weight of Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3387/">
+          3387. Maximize Amount After Two Days of Conversions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3385/">
+          3385. Minimum Time to Break Locks II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3383/">
+          3383. Minimum Runes to Add to Cast Spell
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3376/">
+          3376. Minimum Time to Break Locks I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3373/">
+          3373. Maximize the Number of Target Nodes After Connecting Trees II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3372/">
+          3372. Maximize the Number of Target Nodes After Connecting Trees I
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3367/">
+          3367. Maximize Sum of Weights after Edge Removals
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3331/">
+          3331. Find Subtree Sizes After Changes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3327/">
+          3327. Check if DFS Strings Are Palindromes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3319/">
+          3319. K-th Largest Perfect Subtree Size in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3313/">
+          3313. Find the Last Marked Nodes in Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3310/">
+          3310. Remove Methods From Project
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3249/">
+          3249. Count the Number of Good Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3241/">
+          3241. Time Taken to Mark All Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3235/">
+          3235. Check if the Rectangle Corner Is Reachable
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3203/">
+          3203. Find Minimum Diameter After Merging Two Trees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3157/">
+          3157. Find the Level of Tree with Minimum Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3123/">
+          3123. Find Edges in Shortest Paths
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3067/">
+          3067. Count Pairs of Connectable Servers in a Weighted Tree Network
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/3004/">
+          3004. Maximum Subtree of the Same Color
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2973/">
+          2973. Find Number of Coins to Place in Tree Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2925/">
+          2925. Maximum Score After Applying Operations on a Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2920/">
+          2920. Maximum Points After Collecting Coins From All Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2872/">
+          2872. Maximum Number of K-Divisible Components
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2867/">
+          2867. Count Valid Paths in a Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2858/">
+          2858. Minimum Edge Reversals So Every Node Is Reachable
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2852/">
+          2852. Sum of Remoteness of All Cells
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2792/">
+          2792. Count Nodes That Are Great Enough
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2791/">
+          2791. Count Paths That Can Form a Palindrome in a Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2773/">
+          2773. Height of Special Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2764/">
+          2764. Is Array a Preorder of Some ‌Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2689/">
+          2689. Extract Kth Character From The Rope Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2685/">
+          2685. Count the Number of Complete Components
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2658/">
+          2658. Maximum Number of Fish in a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2646/">
+          2646. Minimize the Total Price of the Trips
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2641/">
+          2641. Cousins in Binary Tree II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2596/">
+          2596. Check Knight Tour Configuration
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2581/">
+          2581. Count Number of Possible Root Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2556/">
+          2556. Disconnect Path in a Binary Matrix by at Most One Flip
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2538/">
+          2538. Difference Between Maximum and Minimum Price Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2493/">
+          2493. Divide Nodes Into the Maximum Number of Groups
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2492/">
+          2492. Minimum Score of a Path Between Two Cities
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2479/">
+          2479. Maximum XOR of Two Non-Overlapping Subtrees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2477/">
+          2477. Minimum Fuel Cost to Report to the Capital
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2476/">
+          2476. Closest Nodes Queries in a Binary Search Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2467/">
+          2467. Most Profitable Path in a Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2458/">
+          2458. Height of Binary Tree After Subtree Removal Queries
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2445/">
+          2445. Number of Nodes With Value One
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2440/">
+          2440. Create Components With Same Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2415/">
+          2415. Reverse Odd Levels of Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2385/">
+          2385. Amount of Time for Binary Tree to Be Infected
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2378/">
+          2378. Choose Edges to Maximize Score in a Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2368/">
+          2368. Reachable Nodes With Restrictions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2360/">
+          2360. Longest Cycle in a Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2359/">
+          2359. Find Closest Node to Given Two Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2331/">
+          2331. Evaluate Boolean Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2328/">
+          2328. Number of Increasing Paths in a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2322/">
+          2322. Minimum Score After Removals on a Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2316/">
+          2316. Count Unreachable Pairs of Nodes in an Undirected Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2313/">
+          2313. Minimum Flips in Binary Tree to Get Result
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2307/">
+          2307. Check for Contradictions in Equations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2277/">
+          2277. Closest Node to Path in Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2265/">
+          2265. Count Nodes Equal to Average of Subtree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2246/">
+          2246. Longest Path With Different Adjacent Characters
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2204/">
+          2204. Distance to a Cycle in Undirected Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2192/">
+          2192. All Ancestors of a Node in a Directed Acyclic Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2127/">
+          2127. Maximum Employees to Be Invited to a Meeting
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2101/">
+          2101. Detonate the Maximum Bombs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2097/">
+          2097. Valid Arrangement of Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2096/">
+          2096. Step-By-Step Directions From a Binary Tree Node to Another
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2092/">
+          2092. Find All People With Secret
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2049/">
+          2049. Count Nodes With the Highest Score
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/2003/">
+          2003. Smallest Missing Genetic Value in Each Subtree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1993/">
+          1993. Operations on Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1992/">
+          1992. Find All Groups of Farmland
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1973/">
+          1973. Count Nodes Equal to Sum of Descendants
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1971/">
+          1971. Find if Path Exists in Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1970/">
+          1970. Last Day Where You Can Still Cross
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1938/">
+          1938. Maximum Genetic Difference Query
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1932/">
+          1932. Merge BSTs to Create Single BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1905/">
+          1905. Count Sub Islands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1858/">
+          1858. Longest Word With All Prefixes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1820/">
+          1820. Maximum Number of Accepted Invitations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1810/">
+          1810. Minimum Path Cost in a Hidden Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1778/">
+          1778. Shortest Path in a Hidden Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1766/">
+          1766. Tree of Coprimes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1743/">
+          1743. Restore the Array From Adjacent Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1740/">
+          1740. Find Distance in a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1722/">
+          1722. Minimize Hamming Distance After Swap Operations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1676/">
+          1676. Lowest Common Ancestor of a Binary Tree IV
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1666/">
+          1666. Change the Root of a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1660/">
+          1660. Correct a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1644/">
+          1644. Lowest Common Ancestor of a Binary Tree II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1631/">
+          1631. Path With Minimum Effort
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1625/">
+          1625. Lexicographically Smallest String After Applying Operations
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1612/">
+          1612. Check If Two Expression Trees are Equivalent
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1600/">
+          1600. Throne Inheritance
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1568/">
+          1568. Minimum Number of Days to Disconnect Island
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1559/">
+          1559. Detect Cycles in 2D Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1530/">
+          1530. Number of Good Leaf Nodes Pairs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1522/">
+          1522. Diameter of N-Ary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1519/">
+          1519. Number of Nodes in the Sub-Tree With the Same Label
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1516/">
+          1516. Move Sub-Tree of N-Ary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1506/">
+          1506. Find Root of N-Ary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1490/">
+          1490. Clone N-ary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1485/">
+          1485. Clone Binary Tree With Random Pointer
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1483/">
+          1483. Kth Ancestor of a Tree Node
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1469/">
+          1469. Find All The Lonely Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1466/">
+          1466. Reorder Routes to Make All Paths Lead to the City Zero
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1462/">
+          1462. Course Schedule IV
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1457/">
+          1457. Pseudo-Palindromic Paths in a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1448/">
+          1448. Count Good Nodes in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1443/">
+          1443. Minimum Time to Collect All Apples in a Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1430/">
+          1430. Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1391/">
+          1391. Check if There is a Valid Path in a Grid
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1382/">
+          1382. Balance a Binary Search Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1379/">
+          1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1377/">
+          1377. Frog Position After T Seconds
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1376/">
+          1376. Time Needed to Inform All Employees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1373/">
+          1373. Maximum Sum BST in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1372/">
+          1372. Longest ZigZag Path in a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1367/">
+          1367. Linked List in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1361/">
+          1361. Validate Binary Tree Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1339/">
+          1339. Maximum Product of Splitted Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1325/">
+          1325. Delete Leaves With a Given Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1319/">
+          1319. Number of Operations to Make Network Connected
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1315/">
+          1315. Sum of Nodes with Even-Valued Grandparent
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1306/">
+          1306. Jump Game III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1305/">
+          1305. All Elements in Two Binary Search Trees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1302/">
+          1302. Deepest Leaves Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1273/">
+          1273. Delete Tree Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1267/">
+          1267. Count Servers that Communicate
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1261/">
+          1261. Find Elements in a Contaminated Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1257/">
+          1257. Smallest Common Region
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1254/">
+          1254. Number of Closed Islands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1245/">
+          1245. Tree Diameter
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1242/">
+          1242. Web Crawler Multithreaded
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1236/">
+          1236. Web Crawler
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1233/">
+          1233. Remove Sub-Folders from the Filesystem
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1214/">
+          1214. Two Sum BSTs
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1203/">
+          1203. Sort Items by Groups Respecting Dependencies
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1202/">
+          1202. Smallest String With Swaps
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1192/">
+          1192. Critical Connections in a Network
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1161/">
+          1161. Maximum Level Sum of a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1145/">
+          1145. Binary Tree Coloring Game
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1123/">
+          1123. Lowest Common Ancestor of Deepest Leaves
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1120/">
+          1120. Maximum Average Subtree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1110/">
+          1110. Delete Nodes And Return Forest
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1102/">
+          1102. Path With Maximum Minimum Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1080/">
+          1080. Insufficient Nodes in Root to Leaf Paths
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1042/">
+          1042. Flower Planting With No Adjacent
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1038/">
+          1038. Binary Search Tree to Greater Sum Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1036/">
+          1036. Escape a Large Maze
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1034/">
+          1034. Coloring A Border
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1028/">
+          1028. Recover a Tree From Preorder Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1026/">
+          1026. Maximum Difference Between Node and Ancestor
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1022/">
+          1022. Sum of Root To Leaf Binary Numbers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/1020/">
+          1020. Number of Enclaves
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/993/">
+          993. Cousins in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/988/">
+          988. Smallest String Starting From Leaf
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/987/">
+          987. Vertical Order Traversal of a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/979/">
+          979. Distribute Coins in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/971/">
+          971. Flip Binary Tree To Match Preorder Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/968/">
+          968. Binary Tree Cameras
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/965/">
+          965. Univalued Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/959/">
+          959. Regions Cut By Slashes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/951/">
+          951. Flip Equivalent Binary Trees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/947/">
+          947. Most Stones Removed with Same Row or Column
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/938/">
+          938. Range Sum of BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/934/">
+          934. Shortest Bridge
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/928/">
+          928. Minimize Malware Spread II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/924/">
+          924. Minimize Malware Spread
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/897/">
+          897. Increasing Order Search Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/886/">
+          886. Possible Bipartition
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/872/">
+          872. Leaf-Similar Trees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/865/">
+          865. Smallest Subtree with all the Deepest Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/863/">
+          863. All Nodes Distance K in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/851/">
+          851. Loud and Rich
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/841/">
+          841. Keys and Rooms
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/839/">
+          839. Similar String Groups
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/834/">
+          834. Sum of Distances in Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/827/">
+          827. Making A Large Island
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/814/">
+          814. Binary Tree Pruning
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/802/">
+          802. Find Eventual Safe States
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/797/">
+          797. All Paths From Source to Target
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/787/">
+          787. Cheapest Flights Within K Stops
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/785/">
+          785. Is Graph Bipartite?
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/783/">
+          783. Minimum Distance Between BST Nodes
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/778/">
+          778. Swim in Rising Water
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/765/">
+          765. Couples Holding Hands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/756/">
+          756. Pyramid Transition Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/753/">
+          753. Cracking the Safe
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/749/">
+          749. Contain Virus
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/743/">
+          743. Network Delay Time
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/742/">
+          742. Closest Leaf in a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/737/">
+          737. Sentence Similarity II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/733/">
+          733. Flood Fill
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/721/">
+          721. Accounts Merge
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/711/">
+          711. Number of Distinct Islands II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/695/">
+          695. Max Area of Island
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/694/">
+          694. Number of Distinct Islands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/690/">
+          690. Employee Importance
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/687/">
+          687. Longest Univalue Path
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/685/">
+          685. Redundant Connection II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/684/">
+          684. Redundant Connection
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/676/">
+          676. Implement Magic Dictionary
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/672/">
+          672. Bulb Switcher II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/671/">
+          671. Second Minimum Node In a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/669/">
+          669. Trim a Binary Search Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/666/">
+          666. Path Sum IV
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/663/">
+          663. Equal Tree Partition
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/662/">
+          662. Maximum Width of Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/655/">
+          655. Print Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/653/">
+          653. Two Sum IV - Input is a BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/652/">
+          652. Find Duplicate Subtrees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/642/">
+          642. Design Search Autocomplete System
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/637/">
+          637. Average of Levels in Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/623/">
+          623. Add One Row to Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/617/">
+          617. Merge Two Binary Trees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/606/">
+          606. Construct String from Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/590/">
+          590. N-ary Tree Postorder Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/589/">
+          589. N-ary Tree Preorder Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/582/">
+          582. Kill Process
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/572/">
+          572. Subtree of Another Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/565/">
+          565. Array Nesting
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/563/">
+          563. Binary Tree Tilt
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/559/">
+          559. Maximum Depth of N-ary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/549/">
+          549. Binary Tree Longest Consecutive Sequence II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/547/">
+          547. Number of Provinces
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/545/">
+          545. Boundary of Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/543/">
+          543. Diameter of Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/538/">
+          538. Convert BST to Greater Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/536/">
+          536. Construct Binary Tree from String
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/530/">
+          530. Minimum Absolute Difference in BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/529/">
+          529. Minesweeper
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/515/">
+          515. Find Largest Value in Each Tree Row
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/514/">
+          514. Freedom Trail
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/513/">
+          513. Find Bottom Left Tree Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/508/">
+          508. Most Frequent Subtree Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/505/">
+          505. The Maze II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/501/">
+          501. Find Mode in Binary Search Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/499/">
+          499. The Maze III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/490/">
+          490. The Maze
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/472/">
+          472. Concatenated Words
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/463/">
+          463. Island Perimeter
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/449/">
+          449. Serialize and Deserialize BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/437/">
+          437. Path Sum III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/431/">
+          431. Encode N-ary Tree to Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/430/">
+          430. Flatten a Multilevel Doubly Linked List
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/428/">
+          428. Serialize and Deserialize N-ary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/426/">
+          426. Convert Binary Search Tree to Sorted Doubly Linked List
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/419/">
+          419. Battleships in a Board
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/417/">
+          417. Pacific Atlantic Water Flow
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/404/">
+          404. Sum of Left Leaves
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/399/">
+          399. Evaluate Division
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/388/">
+          388. Longest Absolute File Path
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/386/">
+          386. Lexicographical Numbers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/385/">
+          385. Mini Parser
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/366/">
+          366. Find Leaves of Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/365/">
+          365. Water and Jug Problem
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/364/">
+          364. Nested List Weight Sum II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/341/">
+          341. Flatten Nested List Iterator
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/339/">
+          339. Nested List Weight Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/337/">
+          337. House Robber III
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/333/">
+          333. Largest BST Subtree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/332/">
+          332. Reconstruct Itinerary
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/329/">
+          329. Longest Increasing Path in a Matrix
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/323/">
+          323. Number of Connected Components in an Undirected Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/314/">
+          314. Binary Tree Vertical Order Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/310/">
+          310. Minimum Height Trees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/302/">
+          302. Smallest Rectangle Enclosing Black Pixels
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/298/">
+          298. Binary Tree Longest Consecutive Sequence
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/297/">
+          297. Serialize and Deserialize Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/285/">
+          285. Inorder Successor in BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/272/">
+          272. Closest Binary Search Tree Value II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/270/">
+          270. Closest Binary Search Tree Value
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/269/">
+          269. Alien Dictionary
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/261/">
+          261. Graph Valid Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/257/">
+          257. Binary Tree Paths
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/250/">
+          250. Count Univalue Subtrees
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/236/">
+          236. Lowest Common Ancestor of a Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/235/">
+          235. Lowest Common Ancestor of a Binary Search Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/230/">
+          230. Kth Smallest Element in a BST
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/226/">
+          226. Invert Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/211/">
+          211. Design Add and Search Words Data Structure
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/210/">
+          210. Course Schedule II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/207/">
+          207. Course Schedule
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/200/">
+          200. Number of Islands
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/199/">
+          199. Binary Tree Right Side View
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/156/">
+          156. Binary Tree Upside Down
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/145/">
+          145. Binary Tree Postorder Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/144/">
+          144. Binary Tree Preorder Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/133/">
+          133. Clone Graph
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/130/">
+          130. Surrounded Regions
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/129/">
+          129. Sum Root to Leaf Numbers
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/124/">
+          124. Binary Tree Maximum Path Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/117/">
+          117. Populating Next Right Pointers in Each Node II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/116/">
+          116. Populating Next Right Pointers in Each Node
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/114/">
+          114. Flatten Binary Tree to Linked List
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/113/">
+          113. Path Sum II
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/112/">
+          112. Path Sum
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/111/">
+          111. Minimum Depth of Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/110/">
+          110. Balanced Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/104/">
+          104. Maximum Depth of Binary Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/101/">
+          101. Symmetric Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/100/">
+          100. Same Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/99/">
+          99. Recover Binary Search Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/98/">
+          98. Validate Binary Search Tree
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/94/">
+          94. Binary Tree Inorder Traversal
+        </a>
+      </li>
+    
+      <li>
+        <a href="../../../problems/79/">
+          79. Word Search
+        </a>
+      </li>
+    
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve this page by using our feedback form.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../basic/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Basic">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Basic
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../sorting/" class="md-footer__link md-footer__link--next" aria-label="Next: Sorting">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Sorting
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 - 2025 P.-Y. Chen
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/walkccc" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/pengyuc" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://walkccc.me/CLRS" target="_blank" rel="noopener" title="walkccc.me" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pokemontcgp.ai" target="_blank" rel="noopener" title="pokemontcgp.ai" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 1.4-.41 2.71-1.12 3.8L12 22.21 6.12 12.8A6.95 6.95 0 0 1 5 9a7 7 0 0 1 7-7m0 1.5A5.5 5.5 0 0 0 6.59 8h2.58c.41-1.17 1.52-2 2.83-2s2.42.83 2.83 2h2.58A5.5 5.5 0 0 0 12 3.5m0 8.5a2.99 2.99 0 0 1-2.83-2H6.59c.13.69.38 1.34.75 1.91l.04.09A5.51 5.51 0 0 0 12 14.5c1.94 0 3.64-1 4.62-2.5l.04-.09c.37-.57.62-1.22.75-1.91h-2.58A2.99 2.99 0 0 1 12 12m0-4.5A1.5 1.5 0 0 0 10.5 9a1.5 1.5 0 0 0 1.5 1.5A1.5 1.5 0 0 0 13.5 9 1.5 1.5 0 0 0 12 7.5"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:pengyuc.me@gmail.com" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.buymeacoffee.com/pengyuc" target="_blank" rel="noopener" title="Buy me a protein bar" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["header.autohide", "navigation.footer", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+        <script src="../../../js/adsense.js"></script>
+      
+        <script src="../../../js/katex.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
